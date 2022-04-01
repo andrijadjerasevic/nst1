@@ -67,6 +67,7 @@ DROP TABLE IF EXISTS `task`;
 CREATE TABLE `task` (
   `taskId` int(11) NOT NULL AUTO_INCREMENT,
   `taskName` varchar(100) COLLATE utf16_bin DEFAULT NULL,
+  `description` varchar(1000) COLLATE utf16_bin DEFAULT NULL,
   `projectId` int(11) DEFAULT NULL,
   PRIMARY KEY (`taskId`),
   KEY `taskFk1` (`projectId`),
