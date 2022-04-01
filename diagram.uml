@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>099a4b8c-8906-49b3-8786-afd53c439382</OriginalElement>
+  <nodes>
+    <node x="205.5" y="233.0">099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.participate</node>
+    <node x="0.0" y="212.0">099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.task</node>
+    <node x="35.0" y="11.0">099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.project</node>
+    <node x="229.0" y="0.0">099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.employee</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.task" target="099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.project">
+      <point x="0.0" y="-59.0" />
+      <point x="-43.5" y="70.0" />
+    </edge>
+    <edge source="099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.participate" target="099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.employee">
+      <point x="34.0" y="-38.0" />
+      <point x="0.0" y="81.0" />
+    </edge>
+    <edge source="099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.participate" target="099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.project">
+      <point x="-34.0" y="-38.0" />
+      <point x="239.5" y="187.0" />
+      <point x="165.5" y="187.0" />
+      <point x="43.5" y="70.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="193.0" y="165.0" />
+  <SelectedNodes>
+    <node>099a4b8c-8906-49b3-8786-afd53c439382.TABLE:nst1.employee</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
