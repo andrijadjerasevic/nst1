@@ -16,6 +16,19 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`nst1` /*!40100 DEFAULT CHARACTER SET ut
 
 USE `nst1`;
 
+/*Table structure for table `admin` */
+
+DROP TABLE IF EXISTS `admin`;
+
+CREATE TABLE `admin` (
+  `adminId` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) COLLATE utf16_bin DEFAULT NULL,
+  `password` varchar(100) COLLATE utf16_bin DEFAULT NULL,
+  PRIMARY KEY (`adminId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+
+/*Data for the table `admin` */
+
 /*Table structure for table `employee` */
 
 DROP TABLE IF EXISTS `employee`;
@@ -24,9 +37,11 @@ CREATE TABLE `employee` (
   `employeeId` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(100) COLLATE utf16_bin DEFAULT NULL,
   `lastName` varchar(100) COLLATE utf16_bin DEFAULT NULL,
-  `username` varchar(100) COLLATE utf16_bin DEFAULT NULL,
-  `password` varchar(100) COLLATE utf16_bin DEFAULT NULL,
-  PRIMARY KEY (`employeeId`)
+  `email` varchar(100) COLLATE utf16_bin DEFAULT NULL,
+  `adminId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`employeeId`),
+  KEY `adminId` (`adminId`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
 /*Data for the table `employee` */
@@ -55,7 +70,10 @@ CREATE TABLE `project` (
   `projectName` varchar(100) COLLATE utf16_bin DEFAULT NULL,
   `startDate` datetime DEFAULT NULL,
   `endDate` datetime DEFAULT NULL,
-  PRIMARY KEY (`projectId`)
+  `adminId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`projectId`),
+  KEY `adminId` (`adminId`),
+  CONSTRAINT `project_ibfk_1` FOREIGN KEY (`adminId`) REFERENCES `admin` (`adminId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
 /*Data for the table `project` */
