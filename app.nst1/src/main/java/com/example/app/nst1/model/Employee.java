@@ -3,6 +3,7 @@ package com.example.app.nst1.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -30,10 +31,18 @@ public class Employee implements Serializable {
   @Column(name = "email")
   private String email;
 
-  // TODO: 13-Apr-22 investigaate this, when save return whole object with all values
+  // TODO: 13-Apr-22 investigate this, when save return whole object with all values
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "adminId", referencedColumnName = "adminId")
+  @NotNull
   private Admin admin;
+
+  @OneToMany
+  @JoinTable(
+      name = "participate",
+      joinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "employeeId"),
+      inverseJoinColumns = @JoinColumn(name = "projectId", referencedColumnName = "projectId"))
+  private List<Project> projects;
 
   public Employee() {}
 
