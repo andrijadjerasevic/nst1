@@ -1,6 +1,6 @@
 package com.example.app.nst1.controller;
 
-import com.example.app.nst1.controller.exceptions.AdminException;
+import com.example.app.nst1.exceptions.AdminException;
 import com.example.app.nst1.model.Admin;
 import com.example.app.nst1.service.AdminService;
 import org.springframework.http.HttpStatus;
