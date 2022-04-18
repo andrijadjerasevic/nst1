@@ -115,16 +115,15 @@ public class Project implements Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Project project = (Project) o;
-    return projectId == project.projectId
+    return projectId.equals(project.projectId)
         && projectName.equals(project.projectName)
         && startDate.equals(project.startDate)
-        && endDate.equals(project.endDate)
-        && admin.equals(project.admin);
+        && endDate.equals(project.endDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(projectId, projectName, startDate, endDate, admin);
+    return Objects.hash(projectId, projectName, startDate, endDate);
   }
 
   @Override
