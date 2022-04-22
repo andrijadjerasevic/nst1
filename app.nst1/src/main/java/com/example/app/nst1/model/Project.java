@@ -16,24 +16,27 @@ public class Project implements Serializable {
   private static final long serialVersionUID = 1620883302536719732L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Basic(optional = false)
   @NotNull
   @Column(name = "projectId")
-  private Long projectId;
+  private String projectId;
 
+  @NotNull
   @Column(name = "projectName")
   private String projectName;
 
+  @NotNull
   @Column(name = "projectLocation")
   private String projectLocation;
 
   @Column(name = "projectDescription")
   private String projectDescription;
 
+  @NotNull
   @Column(name = "startDate")
   private Date startDate;
 
+  @NotNull
   @Column(name = "endDate")
   private Date endDate;
 
@@ -53,12 +56,12 @@ public class Project implements Serializable {
 
   public Project() {}
 
-  public Project(Long projectId) {
+  public Project(String projectId) {
     this.projectId = projectId;
   }
 
   public Project(
-      Long projectId,
+      String projectId,
       String projectName,
       String projectLocation,
       String projectDescription,
@@ -72,19 +75,29 @@ public class Project implements Serializable {
     this.endDate = endDate;
   }
 
-  public Project(Long projectId, String projectName, Date startDate, Date endDate, Admin admin) {
+  public Project(
+      String projectId,
+      String googleEventId,
+      String projectName,
+      String projectLocation,
+      String projectDescription,
+      Date startDate,
+      Date endDate,
+      Admin admin) {
     this.projectId = projectId;
     this.projectName = projectName;
+    this.projectLocation = projectLocation;
+    this.projectDescription = projectDescription;
     this.startDate = startDate;
     this.endDate = endDate;
     this.admin = admin;
   }
 
-  public Long getProjectId() {
+  public String getProjectId() {
     return projectId;
   }
 
-  public void setProjectId(Long projectId) {
+  public void setProjectId(String projectId) {
     this.projectId = projectId;
   }
 

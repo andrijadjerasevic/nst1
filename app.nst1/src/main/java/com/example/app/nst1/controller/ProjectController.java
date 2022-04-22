@@ -27,7 +27,7 @@ public class ProjectController {
   }
 
   @GetMapping("get/{id}")
-  public @ResponseBody ResponseEntity<Project> findById(@PathVariable Long id) {
+  public @ResponseBody ResponseEntity<Project> findById(@PathVariable String id) {
     Optional<Project> foundProject = projectService.findBy(id);
     if (foundProject.isPresent()) {
       return ResponseEntity.status(HttpStatus.OK).body(foundProject.get());
@@ -43,7 +43,7 @@ public class ProjectController {
 
   @PostMapping("update")
   public @ResponseBody ResponseEntity<Project> update(@RequestBody @Valid Project project) {
-    if (project.getProjectId() != 0) {
+    if (project.getProjectId() != null) {
       return ResponseEntity.status(HttpStatus.OK).body(projectService.update(project));
     } else {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -51,7 +51,7 @@ public class ProjectController {
   }
 
   @GetMapping("delete/{id}")
-  public @ResponseBody ResponseEntity delete(@PathVariable Long id) {
+  public @ResponseBody ResponseEntity delete(@PathVariable String id) {
     projectService.deleteBy(id);
     return ResponseEntity.status(HttpStatus.OK).body("PROJECT DELETED");
   }

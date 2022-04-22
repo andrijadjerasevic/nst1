@@ -24,10 +24,12 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   public Project save(Project project) {
-    //    google calendar update
-    System.out.println(calendarService);
     try {
-      calendarService.createEvent(calendarService.initializeNewAuthorization(), project);
+      String googleEventId =
+          calendarService
+              .createEvent(calendarService.initializeNewAuthorization(), project)
+              .getId();
+      project.setProjectId(googleEventId);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -35,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public Optional<Project> findBy(Long id) {
+  public Optional<Project> findBy(String id) {
     return projectRepository.findById(id);
   }
 
@@ -56,7 +58,7 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   @Transactional
-  public void deleteBy(Long id) {
+  public void deleteBy(String id) {
     projectRepository.deleteById(id);
   }
 }

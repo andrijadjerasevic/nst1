@@ -41,7 +41,9 @@ public class CalendarServiceImpl {
   private static final String EVENT_RECURRENCE = "RRULE:FREQ=DAILY;COUNT=1";
   private static final String CALENDAR_ID = "primary";
 
-  public void listUpcomingEvents(Calendar service) throws IOException {
+  private static final String DEFAULT_MAIL = "andrija.djerasevic@gmail.com";
+
+  public List<Event> listUpcomingEvents(Calendar service) throws IOException {
     DateTime now = new DateTime(System.currentTimeMillis());
     Events events =
         service
@@ -52,22 +54,19 @@ public class CalendarServiceImpl {
             .setOrderBy("startTime")
             .setSingleEvents(true)
             .execute();
-    List<Event> items = events.getItems();
-    if (items.isEmpty()) {
-      System.out.println("No upcoming events found.");
-    } else {
-      System.out.println("Upcoming events");
-      for (Event event : items) {
-        DateTime start = event.getStart().getDateTime();
-        if (start == null) {
-          start = event.getStart().getDate();
-        }
-        System.out.printf("%s (%s)\n", event.getSummary(), start);
-      }
-    }
+    return events.getItems();
   }
 
-  public void createEvent(Calendar service, Project project) throws Exception {
+  public Event findEvent(Calendar service, Long projectId, List<Event> events) throws Exception {
+    for (Event event : events) {
+      if (event.getId().equals(projectId.toString())) {
+        return event;
+      }
+    }
+    throw new Exception("Event not found!");
+  }
+
+  public Event createEvent(Calendar service, Project project) throws Exception {
 
     Event event =
         new Event()
@@ -96,9 +95,7 @@ public class CalendarServiceImpl {
               attendees.add(
                   new EventAttendee()
                       .setEmail(
-                          e.getEmployeeEmail() != null
-                              ? e.getEmployeeEmail()
-                              : "andrija.djerasevic@gmail.com"));
+                          e.getEmployeeEmail() != null ? e.getEmployeeEmail() : DEFAULT_MAIL));
             });
 
     event.setAttendees(attendees);
@@ -114,6 +111,7 @@ public class CalendarServiceImpl {
 
     event = service.events().insert(CALENDAR_ID, event).execute();
     System.out.printf("Event created: %s\n", event.getHtmlLink());
+    return event;
   }
 
   public Credential getCredentials(NetHttpTransport HTTP_TRANSPORT) throws IOException {

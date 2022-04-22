@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public interface ProjectService extends GenericOperationsService<Project, Long> {
+public interface ProjectService extends GenericOperationsService<Project, String> {
   @Override
   Project save(Project project);
 
   @Override
-  Optional<Project> findBy(Long id);
+  Optional<Project> findBy(String id);
 
   @Override
   List<Project> findAll();
@@ -22,5 +22,5 @@ public interface ProjectService extends GenericOperationsService<Project, Long> 
   Project update(Project project);
 
   @Override
-  void deleteBy(Long id);
+  void deleteBy(String id);
 }

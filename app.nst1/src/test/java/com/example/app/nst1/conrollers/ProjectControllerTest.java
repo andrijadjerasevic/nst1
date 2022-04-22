@@ -18,10 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @WebMvcTest(ProjectController.class)
 public class ProjectControllerTest {
@@ -39,7 +36,13 @@ public class ProjectControllerTest {
     Date startDate = new DateTime(new Date()).toDate();
     Date endDate = new DateTime(new Date()).plus(1).toDate();
     project =
-        new Project(1L, "projectName", "projectLocation", "projectDescription", startDate, endDate);
+        new Project(
+            UUID.randomUUID().toString(),
+            "projectName",
+            "projectLocation",
+            "projectDescription",
+            startDate,
+            endDate);
     projects = Arrays.asList(project);
   }
 
