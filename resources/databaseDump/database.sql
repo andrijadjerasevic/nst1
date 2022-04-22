@@ -38,8 +38,8 @@ DROP TABLE IF EXISTS `employee`;
 
 CREATE TABLE `employee` (
   `employeeEmail` varchar(100) COLLATE utf16_bin NOT NULL,
-  `firstName` varchar(100) COLLATE utf16_bin DEFAULT NULL,
-  `lastName` varchar(100) COLLATE utf16_bin DEFAULT NULL,
+  `firstName` varchar(100) COLLATE utf16_bin NOT NULL,
+  `lastName` varchar(100) COLLATE utf16_bin NOT NULL,
   `adminEmail` varchar(100) COLLATE utf16_bin NOT NULL,
   PRIMARY KEY (`employeeEmail`),
   KEY `adminEmail` (`adminEmail`),
@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `participate`;
 
 CREATE TABLE `participate` (
   `employeeEmail` varchar(100) COLLATE utf16_bin NOT NULL,
-  `projectId` int(11) NOT NULL,
+  `projectId` varchar(100) COLLATE utf16_bin NOT NULL,
   PRIMARY KEY (`employeeEmail`,`projectId`),
   KEY `projectId` (`projectId`),
   CONSTRAINT `participate_ibfk_1` FOREIGN KEY (`employeeEmail`) REFERENCES `employee` (`employeeEmail`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -67,29 +67,33 @@ CREATE TABLE `participate` (
 /*Data for the table `participate` */
 
 insert  into `participate`(`employeeEmail`,`projectId`) values 
-('andrija.djerasevic@gmail.com',16);
+('andrija.djerasevic@gmail.com','16'),
+('andrija.djerasevic@gmail.com','lv4jm7hinj4gdib2imvm952nmk'),
+('andrija.djerasevic@gmail.com','nfrdkimri7hutgevgm65d7n81g');
 
 /*Table structure for table `project` */
 
 DROP TABLE IF EXISTS `project`;
 
 CREATE TABLE `project` (
-  `projectId` int(11) NOT NULL AUTO_INCREMENT,
-  `projectName` varchar(100) COLLATE utf16_bin DEFAULT NULL,
-  `projectLocation` varchar(100) COLLATE utf16_bin DEFAULT NULL,
+  `projectId` varchar(100) COLLATE utf16_bin NOT NULL,
+  `projectName` varchar(100) COLLATE utf16_bin NOT NULL,
+  `projectLocation` varchar(100) COLLATE utf16_bin NOT NULL,
   `projectDescription` varchar(1000) COLLATE utf16_bin DEFAULT NULL,
-  `startDate` datetime DEFAULT NULL,
-  `endDate` datetime DEFAULT NULL,
+  `startDate` datetime NOT NULL,
+  `endDate` datetime NOT NULL,
   `adminEmail` varchar(100) COLLATE utf16_bin NOT NULL,
   PRIMARY KEY (`projectId`),
   KEY `adminEmail` (`adminEmail`),
   CONSTRAINT `project_ibfk_1` FOREIGN KEY (`adminEmail`) REFERENCES `admin` (`adminEmail`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
 /*Data for the table `project` */
 
 insert  into `project`(`projectId`,`projectName`,`projectLocation`,`projectDescription`,`startDate`,`endDate`,`adminEmail`) values 
-(16,'Test','Belgrade','Testing','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com');
+('16','Test','Belgrade','Testing','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
+('lv4jm7hinj4gdib2imvm952nmk','Test Save','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
+('nfrdkimri7hutgevgm65d7n81g','Test Save','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

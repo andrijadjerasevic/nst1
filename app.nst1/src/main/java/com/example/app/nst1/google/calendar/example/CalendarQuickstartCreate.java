@@ -1,4 +1,4 @@
-package com.example.app.nst1.google.calendar.impl;
+package com.example.app.nst1.google.calendar.example;
 
 import com.example.app.nst1.model.Project;
 import com.google.api.client.auth.oauth2.Credential;
@@ -7,8 +7,6 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.googleapis.json.GoogleJsonError;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
@@ -16,12 +14,16 @@ import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.*;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.model.EventReminder;
+import com.google.api.services.calendar.model.Events;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class CalendarQuickstartCreate {
@@ -30,11 +32,12 @@ public class CalendarQuickstartCreate {
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
   private static final List<String> SCOPES =
       Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
-  private static final String CREDENTIALS_FILE_PATH = "src/main/resources/credentials/credentials.json";
+  private static final String CREDENTIALS_FILE_PATH =
+      "src/main/resources/credentials/credentials.json";
 
   private Project project;
-  public CalendarQuickstartCreate() {
-  }
+
+  public CalendarQuickstartCreate() {}
 
   private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
       throws IOException {
@@ -59,7 +62,7 @@ public class CalendarQuickstartCreate {
   }
 
   // List the next 10 events from the primary calendar.
-  private static void listUpcomingEvents(Calendar service) throws IOException {
+  private static List<Event> listUpcomingEvents(Calendar service) throws IOException {
     DateTime now = new DateTime(System.currentTimeMillis());
     Events events =
         service
@@ -71,45 +74,38 @@ public class CalendarQuickstartCreate {
             .setSingleEvents(true)
             .execute();
     List<Event> items = events.getItems();
-    if (items.isEmpty()) {
-      System.out.println("No upcoming events found.");
-    } else {
-      System.out.println("Upcoming events");
-      for (Event event : items) {
-        DateTime start = event.getStart().getDateTime();
-        if (start == null) {
-          start = event.getStart().getDate();
-        }
-        System.out.printf("%s (%s)\n", event.getSummary(), start);
-      }
-    }
+    return items;
   }
 
   public static void createEvent(Calendar service) {
+    Date startDate = new org.joda.time.DateTime(new Date()).plusDays(1).toDate();
+    Date endDate = new org.joda.time.DateTime(new Date()).plusDays(2).toDate();
     Event event =
         new Event()
+            .setId("andrija_ID")
             .setSummary("Google I/O 2022")
+            .setColorId("6")
             .setLocation("Europe/Belgrade")
             .setDescription("A chance to hear more about Google's developer products.");
 
-    DateTime startDateTime = new DateTime("2022-04-23T09:00:00-07:00");
+    DateTime startDateTime = new DateTime(startDate);
     EventDateTime start =
         new EventDateTime().setDateTime(startDateTime).setTimeZone("Europe/Belgrade");
     event.setStart(start);
 
-    DateTime endDateTime = new DateTime("2022-04-24T17:00:00-07:00");
+    DateTime endDateTime = new DateTime(endDate);
     EventDateTime end = new EventDateTime().setDateTime(endDateTime).setTimeZone("Europe/Belgrade");
     event.setEnd(end);
 
     String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=1"};
     event.setRecurrence(Arrays.asList(recurrence));
 
-    EventAttendee[] attendees =
-        new EventAttendee[] {
-          new EventAttendee().setEmail("lpage@example.com"),
-          new EventAttendee().setEmail("sbrin@example.com"),
-        };
-    event.setAttendees(Arrays.asList(attendees));
+    //    EventAttendee[] attendees =
+    //        new EventAttendee[] {
+    //          new EventAttendee().setEmail("lpage@example.com"),
+    //          new EventAttendee().setEmail("sbrin@example.com"),
+    //        };
+    //    event.setAttendees(Arrays.asList(attendees));
 
     EventReminder[] reminderOverrides =
         new EventReminder[] {
@@ -123,9 +119,6 @@ public class CalendarQuickstartCreate {
     String calendarId = "primary";
     try {
       event = service.events().insert(calendarId, event).execute();
-    } catch (GoogleJsonResponseException e) {
-      GoogleJsonError error = e.getDetails();
-      System.out.println(error);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -141,6 +134,7 @@ public class CalendarQuickstartCreate {
             .build();
 
     createEvent(service);
-    //    listUpcomingEvents(service);
+    //        List<Event> events = listUpcomingEvents(service);
+    //        System.out.println(events);
   }
 }
