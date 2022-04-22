@@ -28,7 +28,7 @@ public class ProjectController {
 
   @GetMapping("get/{id}")
   public @ResponseBody ResponseEntity<Project> findById(@PathVariable Long id) {
-    Optional<Project> foundProject = projectService.findById(id);
+    Optional<Project> foundProject = projectService.findBy(id);
     if (foundProject.isPresent()) {
       return ResponseEntity.status(HttpStatus.OK).body(foundProject.get());
     } else {
@@ -52,7 +52,7 @@ public class ProjectController {
 
   @GetMapping("delete/{id}")
   public @ResponseBody ResponseEntity delete(@PathVariable Long id) {
-    projectService.delete(id);
-    return ResponseEntity.status(HttpStatus.OK).body("Deleted");
+    projectService.deleteBy(id);
+    return ResponseEntity.status(HttpStatus.OK).body("PROJECT DELETED");
   }
 }

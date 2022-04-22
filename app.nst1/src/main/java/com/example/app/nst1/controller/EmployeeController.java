@@ -2,6 +2,7 @@ package com.example.app.nst1.controller;
 
 import com.example.app.nst1.model.Employee;
 import com.example.app.nst1.service.EmployeeService;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,11 @@ public class EmployeeController {
     return ResponseEntity.status(HttpStatus.OK).body(employeeService.save(employee));
   }
 
-  @GetMapping("get/{id}")
-  public @ResponseBody ResponseEntity<Employee> findById(@PathVariable Long id) {
-    Optional<Employee> foundEmployee = employeeService.findById(id);
+  @PostMapping("getBy/email")
+  public @ResponseBody ResponseEntity<Employee> findBy(@RequestBody @Valid String employeeEmail) {
+    JSONObject jsonObject = new JSONObject(employeeEmail);
+    String email = jsonObject.get("employee").toString();
+    Optional<Employee> foundEmployee = employeeService.findBy(email);
     if (foundEmployee.isPresent()) {
       return ResponseEntity.status(HttpStatus.OK).body(foundEmployee.get());
     } else {
@@ -43,16 +46,18 @@ public class EmployeeController {
 
   @PostMapping("update")
   public @ResponseBody ResponseEntity<Employee> update(@RequestBody @Valid Employee employee) {
-    if (employee.getEmployeeId() != 0) {
+    if (employee.getEmployeeEmail() != null) {
       return ResponseEntity.status(HttpStatus.OK).body(employeeService.update(employee));
     } else {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
   }
 
-  @GetMapping("delete/{id}")
-  public @ResponseBody ResponseEntity delete(@PathVariable Long id) {
-    employeeService.delete(id);
-    return ResponseEntity.status(HttpStatus.OK).body("Deleted");
+  @PostMapping("delete")
+  public @ResponseBody ResponseEntity delete(@RequestBody @Valid String employeeEmail) {
+    JSONObject jsonObject = new JSONObject(employeeEmail);
+    String email = jsonObject.get("employee").toString();
+    employeeService.deleteBy(email);
+    return ResponseEntity.status(HttpStatus.OK).body("EMPLOYEE DELETED");
   }
 }

@@ -4,6 +4,7 @@ import com.example.app.nst1.model.Employee;
 import com.example.app.nst1.repository.EmployeeRepository;
 import com.example.app.nst1.service.EmployeeService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +24,8 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  public Optional<Employee> findById(Long id) {
-    return employeeRepository.findById(id);
+  public Optional<Employee> findBy(String employeeEmail) {
+    return employeeRepository.findByEmail(employeeEmail);
   }
 
   @Override
@@ -38,7 +39,8 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  public void delete(Long id) {
-    employeeRepository.deleteById(id);
+  @Transactional
+  public void deleteBy(String employeeEmail) {
+    employeeRepository.deleteByEmail(employeeEmail);
   }
 }

@@ -1,5 +1,7 @@
 package com.example.app.nst1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -7,17 +9,16 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Employee")
+@Table(name = "employee")
 public class Employee implements Serializable {
 
   private static final long serialVersionUID = -3292644387896154397L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Basic(optional = false)
   @NotNull
-  @Column(name = "employeeId")
-  private Long employeeId;
+  @Column(name = "employeeEmail")
+  private String employeeEmail;
 
   @NotNull
   @Column(name = "firstName")
@@ -27,50 +28,33 @@ public class Employee implements Serializable {
   @Column(name = "lastName")
   private String lastName;
 
-  @NotNull
-  @Column(name = "email")
-  private String email;
-
   // TODO: 13-Apr-22 investigate this, when save return whole object with all values
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "adminId", referencedColumnName = "adminId")
+  @JoinColumn(name = "adminEmail", referencedColumnName = "adminEmail")
   @NotNull
+  @JsonIgnoreProperties({"adminPassword"})
   private Admin admin;
 
   @OneToMany
   @JoinTable(
       name = "participate",
-      joinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "employeeId"),
+      joinColumns = @JoinColumn(name = "employeeEmail", referencedColumnName = "employeeEmail"),
       inverseJoinColumns = @JoinColumn(name = "projectId", referencedColumnName = "projectId"))
   private List<Project> projects;
 
   public Employee() {}
 
-  public Employee(Long employeeId) {
-    this.employeeId = employeeId;
-  }
-
-  public Employee(Long employeeId, String firstName, String lastName, String email) {
-    this.employeeId = employeeId;
+  public Employee(String employeeEmail, String firstName, String lastName) {
+    this.employeeEmail = employeeEmail;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.email = email;
   }
 
-  public Employee(Long employeeId, String firstName, String lastName, String email, Admin admin) {
-    this.employeeId = employeeId;
+  public Employee(String employeeEmail, String firstName, String lastName, Admin admin) {
+    this.employeeEmail = employeeEmail;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.email = email;
     this.admin = admin;
-  }
-
-  public Long getEmployeeId() {
-    return employeeId;
-  }
-
-  public void setEmployeeId(Long employeeId) {
-    this.employeeId = employeeId;
   }
 
   public String getFirstName() {
@@ -89,12 +73,12 @@ public class Employee implements Serializable {
     this.lastName = lastName;
   }
 
-  public String getEmail() {
-    return email;
+  public String getEmployeeEmail() {
+    return employeeEmail;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setEmployeeEmail(String employeeEmail) {
+    this.employeeEmail = employeeEmail;
   }
 
   public Admin getAdmin() {
@@ -110,31 +94,32 @@ public class Employee implements Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Employee employee = (Employee) o;
-    return employeeId == employee.employeeId
+    return employeeEmail.equals(employee.employeeEmail)
         && firstName.equals(employee.firstName)
-        && lastName.equals(employee.lastName)
-        && email.equals(employee.email);
+        && lastName.equals(employee.lastName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(employeeId, firstName, lastName, email);
+    return Objects.hash(employeeEmail, firstName, lastName);
   }
 
   @Override
   public String toString() {
     return "Employee{"
-        + "employeeId="
-        + employeeId
+        + "email='"
+        + employeeEmail
+        + '\''
         + ", firstName='"
         + firstName
         + '\''
         + ", lastName='"
         + lastName
         + '\''
-        + ", email='"
-        + email
-        + '\''
+        + ", admin="
+        + admin
+        + ", projects="
+        + projects
         + '}';
   }
 }

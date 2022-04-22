@@ -1,5 +1,7 @@
 package com.example.app.nst1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,65 +10,42 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "admin")
-@XmlRootElement
 public class Admin implements Serializable {
 
   private static final long serialVersionUID = -8026000654567660851L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Basic(optional = false)
   @NotNull
-  @Column(name = "adminId")
-  private Long adminId;
+  @Column(name = "adminEmail")
+  private String adminEmail;
 
   @NotNull
-  @Column(name = "email")
-  private String email;
-
-  @NotNull
-  @Column(name = "password")
-  private String password;
+  @Column(name = "adminPassword")
+  @JsonIgnoreProperties({"adminPassword"})
+  private String adminPassword;
 
   public Admin() {}
 
-  public Admin(Long adminId) {
-    this.adminId = adminId;
+  public Admin(String adminEmail, String adminPassword) {
+    this.adminEmail = adminEmail;
+    this.adminPassword = adminPassword;
   }
 
-  public Admin(String email, String password) {
-    this.email = email;
-    this.password = password;
+  public String getAdminEmail() {
+    return adminEmail;
   }
 
-  public Admin(Long adminId, String email, String password) {
-    this.adminId = adminId;
-    this.email = email;
-    this.password = password;
+  public void setAdminEmail(String adminEmail) {
+    this.adminEmail = adminEmail;
   }
 
-  public Long getAdminId() {
-    return adminId;
+  public String getAdminPassword() {
+    return adminPassword;
   }
 
-  public void setAdminId(Long adminId) {
-    this.adminId = adminId;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
+  public void setAdminPassword(String adminPassword) {
+    this.adminPassword = adminPassword;
   }
 
   @Override
@@ -74,24 +53,22 @@ public class Admin implements Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Admin admin = (Admin) o;
-    return adminId == admin.adminId && email.equals(admin.email) && password.equals(admin.password);
+    return adminEmail.equals(admin.adminEmail) && adminPassword.equals(admin.adminPassword);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adminId, email, password);
+    return Objects.hash(adminEmail, adminPassword);
   }
 
   @Override
   public String toString() {
     return "Admin{"
-        + "adminId="
-        + adminId
-        + ", email='"
-        + email
+        + "adminEmail='"
+        + adminEmail
         + '\''
-        + ", password='"
-        + password
+        + ", adminPassword='"
+        + adminPassword
         + '\''
         + '}';
   }

@@ -5,6 +5,7 @@ import com.example.app.nst1.model.Admin;
 import com.example.app.nst1.service.AdminService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,13 +36,14 @@ public class AdminControllerTest {
 
   @BeforeEach
   public void before() {
-    admin = new Admin(1L, "a", "a");
+    admin = new Admin("adminEmail", "adminPassword");
     admins = Arrays.asList(admin);
   }
 
   @Test
   public void loginTest() throws Exception {
-    Mockito.when(adminService.login(admin.getEmail(), admin.getPassword())).thenReturn(admin);
+    Mockito.when(adminService.login(admin.getAdminEmail(), admin.getAdminPassword()))
+        .thenReturn(admin);
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/admin/login")
@@ -49,9 +51,11 @@ public class AdminControllerTest {
                 .content(objectMapper.writeValueAsString(admin)))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.equalTo(admin.getEmail())))
         .andExpect(
-            MockMvcResultMatchers.jsonPath("$.password", Matchers.equalTo(admin.getPassword())));
+            MockMvcResultMatchers.jsonPath("$.adminEmail", Matchers.equalTo(admin.getAdminEmail())))
+        .andExpect(
+            MockMvcResultMatchers.jsonPath(
+                "$.adminPassword", Matchers.equalTo(admin.getAdminPassword())));
   }
 
   @Test
@@ -67,22 +71,24 @@ public class AdminControllerTest {
   }
 
   @Test
-  public void findById() throws Exception {
+  public void findBy() throws Exception {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("admin", admin.getAdminEmail());
     Optional<Admin> foundAdmin = Optional.of(admin);
-    Mockito.when(adminService.findById(admin.getAdminId())).thenReturn(foundAdmin);
+    Mockito.when(adminService.findBy(admin.getAdminEmail())).thenReturn(foundAdmin);
     mockMvc
         .perform(
-            MockMvcRequestBuilders.get("/admin/get/" + admin.getAdminId())
+            MockMvcRequestBuilders.post("/admin/getBy/email")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(admin)))
+                .content(jsonObject.toString()))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(
             MockMvcResultMatchers.jsonPath(
-                "$.email", Matchers.equalTo(foundAdmin.get().getEmail())))
+                "$.adminEmail", Matchers.equalTo(foundAdmin.get().getAdminEmail())))
         .andExpect(
             MockMvcResultMatchers.jsonPath(
-                "$.password", Matchers.equalTo(foundAdmin.get().getPassword())));
+                "$.adminPassword", Matchers.equalTo(foundAdmin.get().getAdminPassword())));
   }
 
   @Test
@@ -110,9 +116,9 @@ public class AdminControllerTest {
 
   @Test
   public void deleteTest() throws Exception {
-    adminService.delete(admin.getAdminId());
-    Mockito.verify(adminService, Mockito.times(1)).delete(admin.getAdminId());
-    Optional<Admin> result = adminService.findById(admin.getAdminId());
+    adminService.deleteBy(admin.getAdminEmail());
+    Mockito.verify(adminService, Mockito.times(1)).deleteBy(admin.getAdminEmail());
+    Optional<Admin> result = adminService.findBy(admin.getAdminEmail());
     Assertions.assertEquals(result, Optional.empty());
   }
 }

@@ -3,6 +3,7 @@ package com.example.app.nst1.controller;
 import com.example.app.nst1.exceptions.AdminException;
 import com.example.app.nst1.model.Admin;
 import com.example.app.nst1.service.AdminService;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,7 +28,7 @@ public class AdminController {
   public @ResponseBody ResponseEntity<Admin> login(@RequestBody @Validated Admin admin) {
     try {
       return ResponseEntity.status(HttpStatus.OK)
-          .body(adminService.login(admin.getEmail(), admin.getPassword()));
+          .body(adminService.login(admin.getAdminEmail(), admin.getAdminPassword()));
     } catch (AdminException e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -38,9 +39,11 @@ public class AdminController {
     return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
   }
 
-  @GetMapping("get/{id}")
-  public @ResponseBody ResponseEntity<Admin> findById(@PathVariable Long id) {
-    Optional<Admin> foundAdmin = adminService.findById(id);
+  @PostMapping("getBy/email")
+  public @ResponseBody ResponseEntity<Admin> findBy(@RequestBody @Valid String adminEmail) {
+    JSONObject jsonObject = new JSONObject(adminEmail);
+    String email = jsonObject.get("admin").toString();
+    Optional<Admin> foundAdmin = adminService.findBy(email);
     if (foundAdmin.isPresent()) {
       return ResponseEntity.status(HttpStatus.OK).body(foundAdmin.get());
     }
@@ -54,16 +57,18 @@ public class AdminController {
 
   @PostMapping("update")
   public @ResponseBody ResponseEntity<Admin> update(@RequestBody @Valid Admin admin) {
-    if (admin.getAdminId() != 0) {
+    if (admin.getAdminEmail() != null) {
       return ResponseEntity.status(HttpStatus.OK).body(adminService.update(admin));
     } else {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
   }
 
-  @GetMapping("delete/{id}")
-  public @ResponseBody ResponseEntity delete(@PathVariable Long id) {
-    adminService.delete(id);
-    return ResponseEntity.status(HttpStatus.OK).body("Deleted");
+  @PostMapping("delete")
+  public @ResponseBody ResponseEntity delete(@RequestBody @Valid String adminEmail) {
+    JSONObject jsonObject = new JSONObject(adminEmail);
+    String email = jsonObject.get("admin").toString();
+    adminService.deleteBy(email);
+    return ResponseEntity.status(HttpStatus.OK).body("ADMIN DELETED");
   }
 }

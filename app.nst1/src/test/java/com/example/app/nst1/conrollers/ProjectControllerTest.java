@@ -38,7 +38,8 @@ public class ProjectControllerTest {
   public void before() {
     Date startDate = new DateTime(new Date()).toDate();
     Date endDate = new DateTime(new Date()).plus(1).toDate();
-    project = new Project(1L, "projectName", startDate, endDate);
+    project =
+        new Project(1L, "projectName", "projectLocation", "projectDescription", startDate, endDate);
     projects = Arrays.asList(project);
   }
 
@@ -55,9 +56,9 @@ public class ProjectControllerTest {
   }
 
   @Test
-  public void findById() throws Exception {
+  public void findBy() throws Exception {
     Optional<Project> foundProject = Optional.of(project);
-    Mockito.when(projectService.findById(project.getProjectId())).thenReturn(foundProject);
+    Mockito.when(projectService.findBy(project.getProjectId())).thenReturn(foundProject);
     mockMvc
         .perform(
             MockMvcRequestBuilders.get("/project/get/" + project.getProjectId())
@@ -95,9 +96,9 @@ public class ProjectControllerTest {
 
   @Test
   public void deleteTest() throws Exception {
-    projectService.delete(project.getProjectId());
-    Mockito.verify(projectService, Mockito.times(1)).delete(project.getProjectId());
-    Optional<Project> result = projectService.findById(project.getProjectId());
+    projectService.deleteBy(project.getProjectId());
+    Mockito.verify(projectService, Mockito.times(1)).deleteBy(project.getProjectId());
+    Optional<Project> result = projectService.findBy(project.getProjectId());
     Assertions.assertEquals(result, Optional.empty());
   }
 }

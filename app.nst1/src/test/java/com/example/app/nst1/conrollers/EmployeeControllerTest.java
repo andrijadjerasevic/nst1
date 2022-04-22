@@ -5,6 +5,7 @@ import com.example.app.nst1.model.Employee;
 import com.example.app.nst1.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ public class EmployeeControllerTest {
 
   @BeforeEach
   public void before() {
-    employee = new Employee(1L, "employeeFristName", "employeeLastName", "employeeEmail");
+    employee = new Employee("employeeFirstName", "employeeLastName", "employeeEmail");
     employees = Arrays.asList(employee);
   }
 
@@ -52,14 +53,16 @@ public class EmployeeControllerTest {
   }
 
   @Test
-  public void findById() throws Exception {
+  public void findBy() throws Exception {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("employee", employee.getEmployeeEmail());
     Optional<Employee> foundEmployee = Optional.of(employee);
-    Mockito.when(employeeService.findById(employee.getEmployeeId())).thenReturn(foundEmployee);
+    Mockito.when(employeeService.findBy(employee.getEmployeeEmail())).thenReturn(foundEmployee);
     mockMvc
         .perform(
-            MockMvcRequestBuilders.get("/employee/get/" + employee.getEmployeeId())
+            MockMvcRequestBuilders.post("/employee/getBy/email")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(employee)))
+                .content(jsonObject.toString()))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(
@@ -95,9 +98,9 @@ public class EmployeeControllerTest {
 
   @Test
   public void deleteTest() throws Exception {
-    employeeService.delete(employee.getEmployeeId());
-    Mockito.verify(employeeService, Mockito.times(1)).delete(employee.getEmployeeId());
-    Optional<Employee> result = employeeService.findById(employee.getEmployeeId());
+    employeeService.deleteBy(employee.getEmployeeEmail());
+    Mockito.verify(employeeService, Mockito.times(1)).deleteBy(employee.getEmployeeEmail());
+    Optional<Employee> result = employeeService.findBy(employee.getEmployeeEmail());
     Assertions.assertEquals(result, Optional.empty());
   }
 }

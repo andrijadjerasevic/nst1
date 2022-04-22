@@ -3,7 +3,9 @@ package com.example.app.nst1.service.impl;
 import com.example.app.nst1.model.Project;
 import com.example.app.nst1.repository.ProjectRepository;
 import com.example.app.nst1.service.ProjectService;
+import com.example.app.nst1.service.calendar.impl.CalendarServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,23 +14,38 @@ import java.util.Optional;
 public class ProjectServiceImpl implements ProjectService {
 
   private ProjectRepository projectRepository;
+  private CalendarServiceImpl calendarService;
 
-  public ProjectServiceImpl(ProjectRepository projectRepository) {
+  public ProjectServiceImpl(
+      ProjectRepository projectRepository, CalendarServiceImpl calendarService) {
     this.projectRepository = projectRepository;
+    this.calendarService = calendarService;
   }
 
   @Override
   public Project save(Project project) {
+    //    google calendar update
+    System.out.println(calendarService);
+    try {
+      calendarService.createEvent(calendarService.initializeNewAuthorization(), project);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return projectRepository.save(project);
   }
 
   @Override
-  public Optional<Project> findById(Long id) {
+  public Optional<Project> findBy(Long id) {
     return projectRepository.findById(id);
   }
 
   @Override
   public List<Project> findAll() {
+    try {
+      calendarService.listUpcomingEvents(calendarService.initializeNewAuthorization());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return projectRepository.findAll();
   }
 
@@ -38,7 +55,8 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public void delete(Long id) {
+  @Transactional
+  public void deleteBy(Long id) {
     projectRepository.deleteById(id);
   }
 }

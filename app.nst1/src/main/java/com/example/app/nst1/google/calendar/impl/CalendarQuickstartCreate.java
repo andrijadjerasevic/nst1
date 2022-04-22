@@ -1,5 +1,6 @@
 package com.example.app.nst1.google.calendar.impl;
 
+import com.example.app.nst1.model.Project;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -20,16 +21,20 @@ import com.google.api.services.calendar.model.*;
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class CalendarQuickstartCreate {
-  private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
+  private static final String APPLICATION_NAME = "NST1";
   private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
-  private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
-  private static final String CREDENTIALS_FILE_PATH = "src/main/resources/credentials.json";
+  private static final List<String> SCOPES =
+      Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
+  private static final String CREDENTIALS_FILE_PATH = "src/main/resources/credentials/credentials.json";
+
+  private Project project;
+  public CalendarQuickstartCreate() {
+  }
 
   private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
       throws IOException {
@@ -88,7 +93,8 @@ public class CalendarQuickstartCreate {
             .setDescription("A chance to hear more about Google's developer products.");
 
     DateTime startDateTime = new DateTime("2022-04-23T09:00:00-07:00");
-    EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("Europe/Belgrade");
+    EventDateTime start =
+        new EventDateTime().setDateTime(startDateTime).setTimeZone("Europe/Belgrade");
     event.setStart(start);
 
     DateTime endDateTime = new DateTime("2022-04-24T17:00:00-07:00");
@@ -134,7 +140,7 @@ public class CalendarQuickstartCreate {
             .setApplicationName(APPLICATION_NAME)
             .build();
 
-            createEvent(service);
-//    listUpcomingEvents(service);
+    createEvent(service);
+    //    listUpcomingEvents(service);
   }
 }

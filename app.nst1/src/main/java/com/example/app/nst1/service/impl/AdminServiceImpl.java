@@ -5,6 +5,7 @@ import com.example.app.nst1.model.Admin;
 import com.example.app.nst1.repository.AdminRepository;
 import com.example.app.nst1.service.AdminService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +25,8 @@ public class AdminServiceImpl implements AdminService {
   }
 
   @Override
-  public Admin login(String email, String password) throws AdminException {
-    Admin admin = adminRepository.login(email, password);
+  public Admin login(String adminEmail, String adminPassword) throws AdminException {
+    Admin admin = adminRepository.login(adminEmail, adminPassword);
     if (admin == null) {
       throw new AdminException("Wrong email or password");
     }
@@ -33,8 +34,8 @@ public class AdminServiceImpl implements AdminService {
   }
 
   @Override
-  public Optional<Admin> findById(Long id) {
-    return adminRepository.findById(id);
+  public Optional<Admin> findBy(String adminEmail) {
+    return adminRepository.findByEmail(adminEmail);
   }
 
   @Override
@@ -48,7 +49,8 @@ public class AdminServiceImpl implements AdminService {
   }
 
   @Override
-  public void delete(Long id) {
-    adminRepository.deleteById(id);
+  @Transactional
+  public void deleteBy(String email) {
+    adminRepository.deleteByEmail(email);
   }
 }

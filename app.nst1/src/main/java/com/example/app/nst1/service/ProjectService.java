@@ -1,7 +1,7 @@
 package com.example.app.nst1.service;
 
 import com.example.app.nst1.model.Project;
-import com.example.app.nst1.service.gemeric.GenericOperationsService;
+import com.example.app.nst1.service.genericOperationService.GenericOperationsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public interface ProjectService extends GenericOperationsService<Project, Long> 
   Project save(Project project);
 
   @Override
-  Optional<Project> findById(Long id);
+  Optional<Project> findBy(Long id);
 
   @Override
   List<Project> findAll();
@@ -22,5 +22,5 @@ public interface ProjectService extends GenericOperationsService<Project, Long> 
   Project update(Project project);
 
   @Override
-  void delete(Long id);
+  void deleteBy(Long id);
 }

@@ -1,5 +1,7 @@
 package com.example.app.nst1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -23,6 +25,12 @@ public class Project implements Serializable {
   @Column(name = "projectName")
   private String projectName;
 
+  @Column(name = "projectLocation")
+  private String projectLocation;
+
+  @Column(name = "projectDescription")
+  private String projectDescription;
+
   @Column(name = "startDate")
   private Date startDate;
 
@@ -30,15 +38,17 @@ public class Project implements Serializable {
   private Date endDate;
 
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "adminId", referencedColumnName = "adminId")
+  @JoinColumn(name = "adminEmail", referencedColumnName = "adminEmail")
   @NotNull
+  @JsonIgnoreProperties({"adminPassword"})
   private Admin admin;
 
   @OneToMany
   @JoinTable(
       name = "participate",
       joinColumns = @JoinColumn(name = "projectId", referencedColumnName = "projectId"),
-      inverseJoinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "employeeId"))
+      inverseJoinColumns =
+          @JoinColumn(name = "employeeEmail", referencedColumnName = "employeeEmail"))
   private List<Employee> employees;
 
   public Project() {}
@@ -47,9 +57,17 @@ public class Project implements Serializable {
     this.projectId = projectId;
   }
 
-  public Project(Long projectId, String projectName, Date startDate, Date endDate) {
+  public Project(
+      Long projectId,
+      String projectName,
+      String projectLocation,
+      String projectDescription,
+      Date startDate,
+      Date endDate) {
     this.projectId = projectId;
     this.projectName = projectName;
+    this.projectLocation = projectLocation;
+    this.projectDescription = projectDescription;
     this.startDate = startDate;
     this.endDate = endDate;
   }
@@ -76,6 +94,22 @@ public class Project implements Serializable {
 
   public void setProjectName(String projectName) {
     this.projectName = projectName;
+  }
+
+  public String getProjectLocation() {
+    return projectLocation;
+  }
+
+  public void setProjectLocation(String projectLocation) {
+    this.projectLocation = projectLocation;
+  }
+
+  public String getProjectDescription() {
+    return projectDescription;
+  }
+
+  public void setProjectDescription(String projectDescription) {
+    this.projectDescription = projectDescription;
   }
 
   public Date getStartDate() {
@@ -117,13 +151,16 @@ public class Project implements Serializable {
     Project project = (Project) o;
     return projectId.equals(project.projectId)
         && projectName.equals(project.projectName)
+        && projectLocation.equals(project.projectLocation)
+        && projectDescription.equals(project.projectDescription)
         && startDate.equals(project.startDate)
         && endDate.equals(project.endDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(projectId, projectName, startDate, endDate);
+    return Objects.hash(
+        projectId, projectName, projectLocation, projectDescription, startDate, endDate);
   }
 
   @Override

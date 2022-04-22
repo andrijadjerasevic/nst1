@@ -1,19 +1,19 @@
 package com.example.app.nst1.service;
 
 import com.example.app.nst1.model.Employee;
-import com.example.app.nst1.service.gemeric.GenericOperationsService;
+import com.example.app.nst1.service.genericOperationService.GenericOperationsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public interface EmployeeService extends GenericOperationsService<Employee, Long> {
+public interface EmployeeService extends GenericOperationsService<Employee, String> {
   @Override
   Employee save(Employee employee);
 
   @Override
-  Optional<Employee> findById(Long id);
+  Optional<Employee> findBy(String email);
 
   @Override
   List<Employee> findAll();
@@ -22,5 +22,5 @@ public interface EmployeeService extends GenericOperationsService<Employee, Long
   Employee update(Employee employee);
 
   @Override
-  void delete(Long id);
+  void deleteBy(String email);
 }

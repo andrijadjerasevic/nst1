@@ -1,4 +1,4 @@
-package com.example.app.nst1.service.gemeric;
+package com.example.app.nst1.service.genericOperationService;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,11 +6,11 @@ import java.util.Optional;
 public interface GenericOperationsService<T, K> {
   T save(T t);
 
-  Optional<T> findById(K k);
+  Optional<T> findBy(K k);
 
   List<T> findAll();
 
   T update(T t);
 
-  void delete(K k);
+  void deleteBy(K k);
 }
