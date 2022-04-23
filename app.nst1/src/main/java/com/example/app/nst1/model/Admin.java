@@ -16,11 +16,11 @@ public class Admin implements Serializable {
   @Id
   @Basic(optional = false)
   @NotNull
-  @Column(name = "adminEmail")
+  @Column(name = "adminEmail", unique = true)
   private String adminEmail;
 
   @NotNull
-  @Column(name = "adminPassword")
+  @Column(name = "adminPassword", unique = true)
   @JsonIgnoreProperties({"adminPassword"})
   private String adminPassword;
 
@@ -52,12 +52,12 @@ public class Admin implements Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Admin admin = (Admin) o;
-    return adminEmail.equals(admin.adminEmail) && adminPassword.equals(admin.adminPassword);
+    return adminEmail.equals(admin.adminEmail);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adminEmail, adminPassword);
+    return Objects.hash(adminEmail);
   }
 
   @Override

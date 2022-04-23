@@ -21,18 +21,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.*;
 
 @WebMvcTest(ProjectEventController.class)
-public class ProjectProjectEventControllerTest {
+public class ProjectEventControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
   @MockBean private ProjectEventService projectEventService;
 
   @Autowired private ObjectMapper objectMapper;
-  ProjectEvent projectEvent;
-  List<ProjectEvent> projectEvents;
+
+  private ProjectEvent projectEvent;
+  private List<ProjectEvent> projectEvents;
 
   @BeforeEach
-  public void before() {
+  public void beforeEach() {
     Date startDate = new DateTime(new Date()).toDate();
     Date endDate = new DateTime(new Date()).plus(1).toDate();
     projectEvent =
@@ -59,7 +60,7 @@ public class ProjectProjectEventControllerTest {
   }
 
   @Test
-  public void findBy() throws Exception {
+  public void findByTest() throws Exception {
     Optional<ProjectEvent> foundEvent = Optional.of(projectEvent);
     Mockito.when(projectEventService.findBy(projectEvent.getProjectEventId()))
         .thenReturn(foundEvent);

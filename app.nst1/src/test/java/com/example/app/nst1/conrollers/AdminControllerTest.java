@@ -31,11 +31,11 @@ public class AdminControllerTest {
 
   @Autowired private ObjectMapper objectMapper;
 
-  Admin admin;
-  List<Admin> admins;
+  private Admin admin;
+  private List<Admin> admins;
 
   @BeforeEach
-  public void before() {
+  public void beforeEach() {
     admin = new Admin("adminEmail", "adminPassword");
     admins = Arrays.asList(admin);
   }
@@ -71,7 +71,7 @@ public class AdminControllerTest {
   }
 
   @Test
-  public void findBy() throws Exception {
+  public void findByTest() throws Exception {
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("admin", admin.getAdminEmail());
     Optional<Admin> foundAdmin = Optional.of(admin);

@@ -31,11 +31,11 @@ public class EmployeeControllerTest {
 
   @Autowired private ObjectMapper objectMapper;
 
-  Employee employee;
-  List<Employee> employees;
+  private Employee employee;
+  private List<Employee> employees;
 
   @BeforeEach
-  public void before() {
+  public void beforeEach() {
     employee = new Employee("employeeFirstName", "employeeLastName", "employeeEmail");
     employees = Arrays.asList(employee);
   }
@@ -53,7 +53,7 @@ public class EmployeeControllerTest {
   }
 
   @Test
-  public void findBy() throws Exception {
+  public void findByTest() throws Exception {
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("employee", employee.getEmployeeEmail());
     Optional<Employee> foundEmployee = Optional.of(employee);

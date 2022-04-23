@@ -18,4 +18,8 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
   @Modifying
   @Query("DELETE FROM Admin a WHERE a.adminEmail = ?1")
   void deleteByEmail(String adminEmail);
+
+  @Modifying
+  @Query("UPDATE Admin a SET a.adminPassword = ?2 where a.adminEmail = ?1")
+  void updateAdminPassword(String adminEmail, String adminPassword);
 }
