@@ -35,7 +35,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   public Employee update(Employee employee) {
-    return employeeRepository.save(employee);
+    // TODO: 23-Apr-22 throw Exception
+    //    we want to update just firstName and lastName, not email since it is a primary key
+    employeeRepository.updateEmployee(
+        employee.getFirstName(), employee.getLastName(), employee.getEmployeeEmail());
+    Optional<Employee> updateEmployee = findBy(employee.getEmployeeEmail());
+    return updateEmployee.orElse(new Employee());
   }
 
   @Override

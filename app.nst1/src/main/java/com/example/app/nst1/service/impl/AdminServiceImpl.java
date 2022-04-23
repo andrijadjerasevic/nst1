@@ -46,6 +46,7 @@ public class AdminServiceImpl implements AdminService {
   @Override
   @Transactional
   public Admin update(Admin admin) {
+    // TODO: 23-Apr-22 throw Exception
     //    only admin password could be updated, because admin email is primary key
     adminRepository.updateAdminPassword(admin.getAdminEmail(), admin.getAdminPassword());
     Optional<Admin> updatedAdmin = adminRepository.findByEmail(admin.getAdminEmail());

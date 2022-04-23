@@ -15,4 +15,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
   @Modifying
   @Query("DELETE FROM Employee e WHERE e.employeeEmail = ?1")
   void deleteByEmail(String employeeEmail);
+
+  @Modifying
+  @Query("UPDATE Employee e SET e.firstName = ?1, e.lastName = ?2 WHERE e.employeeEmail = ?3")
+  void updateEmployee(String firstName, String lastName, String employeeEmail);
 }

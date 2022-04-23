@@ -27,7 +27,7 @@ public class ProjectEventServiceImpl implements ProjectEventService {
   @Override
   public ProjectEvent save(ProjectEvent projectEvent) {
     try {
-      //      we first create google event from project event and then send it to google calendar
+      // we first create google event from project event and then send it to google calendar
       Calendar service = calendarService.initializeNewAuthorization();
       Event googleEvent =
           calendarService.sendEventToCalendar(service, calendarService.createEvent(projectEvent));
@@ -68,7 +68,7 @@ public class ProjectEventServiceImpl implements ProjectEventService {
   @Override
   public ProjectEvent update(ProjectEvent updatedProjectEvent) {
     try {
-      //      we first create google event from updated project event and update it in google
+      // we first create google event from updated project event and update it in google
       // calendar
       Calendar service = calendarService.initializeNewAuthorization();
       Event googleUpdateEvent =
@@ -89,12 +89,12 @@ public class ProjectEventServiceImpl implements ProjectEventService {
   @Transactional
   public void deleteBy(String id) {
     try {
-      //      delete Event from Google Calendar
+      // delete Event from Google Calendar
       calendarService.deleteEvent(calendarService.initializeNewAuthorization(), id);
     } catch (Exception e) {
       e.printStackTrace();
     }
-    //    delete Event form Database
+    // delete Event form Database
     projectEventRepository.deleteById(id);
   }
 }

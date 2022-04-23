@@ -46,10 +46,10 @@ public class AdminServiceTest {
 
   @Test
   public void saveTest() {
-    Admin admin = generateAdmin();
-    Mockito.when(adminRepository.save(admin)).thenReturn(admin);
-    Admin savedAdmin = adminService.save(admin);
+    Mockito.when(adminRepository.save(expectedAdmin)).thenReturn(expectedAdmin);
+    Admin savedAdmin = adminService.save(expectedAdmin);
     Assertions.assertNotNull(savedAdmin);
+    Assertions.assertEquals(expectedAdmin, savedAdmin);
   }
 
   @Test
