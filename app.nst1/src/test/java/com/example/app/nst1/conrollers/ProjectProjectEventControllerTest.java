@@ -1,8 +1,8 @@
 package com.example.app.nst1.conrollers;
 
-import com.example.app.nst1.controller.ProjectController;
-import com.example.app.nst1.model.Project;
-import com.example.app.nst1.service.ProjectService;
+import com.example.app.nst1.controller.ProjectEventController;
+import com.example.app.nst1.model.ProjectEvent;
+import com.example.app.nst1.service.ProjectEventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
@@ -20,88 +20,90 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.*;
 
-@WebMvcTest(ProjectController.class)
-public class ProjectControllerTest {
+@WebMvcTest(ProjectEventController.class)
+public class ProjectProjectEventControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
-  @MockBean private ProjectService projectService;
+  @MockBean private ProjectEventService projectEventService;
 
   @Autowired private ObjectMapper objectMapper;
-  Project project;
-  List<Project> projects;
+  ProjectEvent projectEvent;
+  List<ProjectEvent> projectEvents;
 
   @BeforeEach
   public void before() {
     Date startDate = new DateTime(new Date()).toDate();
     Date endDate = new DateTime(new Date()).plus(1).toDate();
-    project =
-        new Project(
+    projectEvent =
+        new ProjectEvent(
             UUID.randomUUID().toString(),
-            "projectName",
-            "projectLocation",
-            "projectDescription",
+            "projectEventName",
+            "projectEventLocation",
+            "projectEventDescription",
             startDate,
             endDate);
-    projects = Arrays.asList(project);
+    projectEvents = Arrays.asList(projectEvent);
   }
 
   @Test
   public void saveTest() throws Exception {
-    Mockito.when(projectService.save(project)).thenReturn(project);
+    Mockito.when(projectEventService.save(projectEvent)).thenReturn(projectEvent);
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/project/save")
+            MockMvcRequestBuilders.post("/projectEvent/save")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(project)))
+                .content(objectMapper.writeValueAsString(projectEvent)))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
   }
 
   @Test
   public void findBy() throws Exception {
-    Optional<Project> foundProject = Optional.of(project);
-    Mockito.when(projectService.findBy(project.getProjectId())).thenReturn(foundProject);
+    Optional<ProjectEvent> foundEvent = Optional.of(projectEvent);
+    Mockito.when(projectEventService.findBy(projectEvent.getProjectEventId()))
+        .thenReturn(foundEvent);
     mockMvc
         .perform(
-            MockMvcRequestBuilders.get("/project/get/" + project.getProjectId())
+            MockMvcRequestBuilders.get("/projectEvent/get/" + projectEvent.getProjectEventId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(project)))
+                .content(objectMapper.writeValueAsString(projectEvent)))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(
             MockMvcResultMatchers.jsonPath(
-                "$.projectName", Matchers.equalTo(foundProject.get().getProjectName())));
+                "$.projectEventName", Matchers.equalTo(foundEvent.get().getProjectEventName())));
   }
 
   @Test
   public void findAllTest() throws Exception {
-    Mockito.when(projectService.findAll()).thenReturn(projects);
+    Mockito.when(projectEventService.findAll()).thenReturn(projectEvents);
     mockMvc
         .perform(
-            MockMvcRequestBuilders.get("/project/get/all")
+            MockMvcRequestBuilders.get("/projectEvent/get/all")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(projects)))
+                .content(objectMapper.writeValueAsString(projectEvents)))
         .andExpect(MockMvcResultMatchers.status().isOk());
   }
 
   @Test
   public void updateTest() throws Exception {
-    Mockito.when(projectService.update(project)).thenReturn(project);
+    Mockito.when(projectEventService.update(projectEvent)).thenReturn(projectEvent);
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/project/update")
+            MockMvcRequestBuilders.post("/projectEvent/update")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(project)))
+                .content(objectMapper.writeValueAsString(projectEvent)))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
   }
 
   @Test
   public void deleteTest() throws Exception {
-    projectService.deleteBy(project.getProjectId());
-    Mockito.verify(projectService, Mockito.times(1)).deleteBy(project.getProjectId());
-    Optional<Project> result = projectService.findBy(project.getProjectId());
+    projectEventService.deleteBy(projectEvent.getProjectEventId());
+    Mockito.verify(projectEventService, Mockito.times(1))
+        .deleteBy(projectEvent.getProjectEventId());
+    Optional<ProjectEvent> result = projectEventService.findBy(projectEvent.getProjectEventId());
     Assertions.assertEquals(result, Optional.empty());
   }
 }

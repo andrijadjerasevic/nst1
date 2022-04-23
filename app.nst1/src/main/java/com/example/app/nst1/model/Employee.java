@@ -39,8 +39,9 @@ public class Employee implements Serializable {
   @JoinTable(
       name = "participate",
       joinColumns = @JoinColumn(name = "employeeEmail", referencedColumnName = "employeeEmail"),
-      inverseJoinColumns = @JoinColumn(name = "projectId", referencedColumnName = "projectId"))
-  private List<Project> projects;
+      inverseJoinColumns =
+          @JoinColumn(name = "projectEventId", referencedColumnName = "projectEventId"))
+  private List<ProjectEvent> projectEvents;
 
   public Employee() {}
 
@@ -107,7 +108,7 @@ public class Employee implements Serializable {
   @Override
   public String toString() {
     return "Employee{"
-        + "email='"
+        + "employeeEmail='"
         + employeeEmail
         + '\''
         + ", firstName='"
@@ -118,8 +119,8 @@ public class Employee implements Serializable {
         + '\''
         + ", admin="
         + admin
-        + ", projects="
-        + projects
+        + ", projectEvents="
+        + projectEvents
         + '}';
   }
 }

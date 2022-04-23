@@ -12,7 +12,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
   @Query("SELECT e FROM Employee e WHERE e.employeeEmail = ?1")
   Optional<Employee> findByEmail(String email);
 
-
   @Modifying
   @Query("DELETE FROM Employee e WHERE e.employeeEmail = ?1")
   void deleteByEmail(String employeeEmail);

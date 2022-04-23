@@ -57,43 +57,51 @@ DROP TABLE IF EXISTS `participate`;
 
 CREATE TABLE `participate` (
   `employeeEmail` varchar(100) COLLATE utf16_bin NOT NULL,
-  `projectId` varchar(100) COLLATE utf16_bin NOT NULL,
-  PRIMARY KEY (`employeeEmail`,`projectId`),
-  KEY `projectId` (`projectId`),
+  `projectEventId` varchar(100) COLLATE utf16_bin NOT NULL,
+  PRIMARY KEY (`employeeEmail`,`projectEventId`),
+  KEY `projectId` (`projectEventId`),
   CONSTRAINT `participate_ibfk_1` FOREIGN KEY (`employeeEmail`) REFERENCES `employee` (`employeeEmail`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `participate_ibfk_2` FOREIGN KEY (`projectId`) REFERENCES `project` (`projectId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `participate_ibfk_2` FOREIGN KEY (`projectEventId`) REFERENCES `projectevent` (`projectEventId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
 /*Data for the table `participate` */
 
-insert  into `participate`(`employeeEmail`,`projectId`) values 
+insert  into `participate`(`employeeEmail`,`projectEventId`) values 
+('andrija.djerasevic@gmail.com','001maemhgbi5c7mjcms8b19ido'),
+('andrija.djerasevic@gmail.com','03n2jans4ru00hmqmn0k6na4dg'),
 ('andrija.djerasevic@gmail.com','16'),
+('andrija.djerasevic@gmail.com','ag7a9j3fjv5ngn0a54lrug46t8'),
+('andrija.djerasevic@gmail.com','b4sue7bqi9h91f59jt1itd4h2c'),
 ('andrija.djerasevic@gmail.com','lv4jm7hinj4gdib2imvm952nmk'),
-('andrija.djerasevic@gmail.com','nfrdkimri7hutgevgm65d7n81g');
+('andrija.djerasevic@gmail.com','p6lvlo7cpkfi9gselu58llfm74');
 
-/*Table structure for table `project` */
+/*Table structure for table `projectevent` */
 
-DROP TABLE IF EXISTS `project`;
+DROP TABLE IF EXISTS `projectevent`;
 
-CREATE TABLE `project` (
-  `projectId` varchar(100) COLLATE utf16_bin NOT NULL,
-  `projectName` varchar(100) COLLATE utf16_bin NOT NULL,
-  `projectLocation` varchar(100) COLLATE utf16_bin NOT NULL,
-  `projectDescription` varchar(1000) COLLATE utf16_bin DEFAULT NULL,
+CREATE TABLE `projectevent` (
+  `projectEventId` varchar(100) COLLATE utf16_bin NOT NULL,
+  `projectEventName` varchar(100) COLLATE utf16_bin NOT NULL,
+  `projectEventLocation` varchar(100) COLLATE utf16_bin NOT NULL,
+  `projectEventDescription` varchar(1000) COLLATE utf16_bin DEFAULT NULL,
   `startDate` datetime NOT NULL,
   `endDate` datetime NOT NULL,
   `adminEmail` varchar(100) COLLATE utf16_bin NOT NULL,
-  PRIMARY KEY (`projectId`),
+  PRIMARY KEY (`projectEventId`),
   KEY `adminEmail` (`adminEmail`),
-  CONSTRAINT `project_ibfk_1` FOREIGN KEY (`adminEmail`) REFERENCES `admin` (`adminEmail`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `projectevent_ibfk_1` FOREIGN KEY (`adminEmail`) REFERENCES `admin` (`adminEmail`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
-/*Data for the table `project` */
+/*Data for the table `projectevent` */
 
-insert  into `project`(`projectId`,`projectName`,`projectLocation`,`projectDescription`,`startDate`,`endDate`,`adminEmail`) values 
-('16','Test','Belgrade','Testing','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
+insert  into `projectevent`(`projectEventId`,`projectEventName`,`projectEventLocation`,`projectEventDescription`,`startDate`,`endDate`,`adminEmail`) values 
+('001maemhgbi5c7mjcms8b19ido','Test Save','Belgrade','Testing Save','2022-04-25 18:37:53','2022-04-26 18:37:57','andrija.djerasevic@gmail.com'),
+('03n2jans4ru00hmqmn0k6na4dg','Test Save','Belgrade','Testing Save','2022-04-25 18:37:53','2022-04-26 18:37:57','andrija.djerasevic@gmail.com'),
+('16','Test Save sndsjandjansk','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
+('ag7a9j3fjv5ngn0a54lrug46t8','Test Save','Belgrade','Testing Save','2022-04-25 18:37:53','2022-04-26 18:37:57','andrija.djerasevic@gmail.com'),
+('b4sue7bqi9h91f59jt1itd4h2c','Test Save','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
 ('lv4jm7hinj4gdib2imvm952nmk','Test Save','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
-('nfrdkimri7hutgevgm65d7n81g','Test Save','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com');
+('p6lvlo7cpkfi9gselu58llfm74','Test Save','Belgrade','Testing Save','2022-04-25 18:37:53','2022-04-26 18:37:57','andrija.djerasevic@gmail.com');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

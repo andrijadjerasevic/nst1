@@ -1,6 +1,5 @@
 package com.example.app.nst1.google.calendar.example;
 
-import com.example.app.nst1.model.Project;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -35,7 +34,7 @@ public class CalendarQuickstartCreate {
   private static final String CREDENTIALS_FILE_PATH =
       "src/main/resources/credentials/credentials.json";
 
-  private Project project;
+  private static final String COLOR_RED = "6";
 
   public CalendarQuickstartCreate() {}
 
@@ -73,8 +72,13 @@ public class CalendarQuickstartCreate {
             .setOrderBy("startTime")
             .setSingleEvents(true)
             .execute();
-    List<Event> items = events.getItems();
-    return items;
+    List<Event> eventsItems = events.getItems();
+
+    for (Event event : eventsItems) {
+      System.out.println("Event Id -> " + event.getId());
+      System.out.println("Event Summary -> " + event.getSummary());
+    }
+    return eventsItems;
   }
 
   public static void createEvent(Calendar service) {
@@ -82,9 +86,8 @@ public class CalendarQuickstartCreate {
     Date endDate = new org.joda.time.DateTime(new Date()).plusDays(2).toDate();
     Event event =
         new Event()
-            .setId("andrija_ID")
             .setSummary("Google I/O 2022")
-            .setColorId("6")
+            .setColorId(COLOR_RED)
             .setLocation("Europe/Belgrade")
             .setDescription("A chance to hear more about Google's developer products.");
 
@@ -133,8 +136,7 @@ public class CalendarQuickstartCreate {
             .setApplicationName(APPLICATION_NAME)
             .build();
 
-    createEvent(service);
-    //        List<Event> events = listUpcomingEvents(service);
-    //        System.out.println(events);
+    //    createEvent(service);
+    listUpcomingEvents(service);
   }
 }
