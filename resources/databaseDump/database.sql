@@ -30,7 +30,9 @@ CREATE TABLE `admin` (
 
 insert  into `admin`(`adminEmail`,`adminPassword`) values 
 ('andrija.djerasevic@gmail.com','andrija'),
-('pera.peric@gmail.com','pera1');
+('pera.peric@gmail.com','pera'),
+('pera.peric@gmail1.com','pera'),
+('pera.peric@gmail10.com','1');
 
 /*Table structure for table `employee` */
 
@@ -49,7 +51,8 @@ CREATE TABLE `employee` (
 /*Data for the table `employee` */
 
 insert  into `employee`(`employeeEmail`,`firstName`,`lastName`,`adminEmail`) values 
-('andrija.djerasevic@gmail.com','Andrija','Djerasevic','andrija.djerasevic@gmail.com');
+('andrija.djerasevic@gmail.com','Andrija','Djerasevic','andrija.djerasevic@gmail.com'),
+('pera.peric@gmail.com','Pera Updated','Peric1','andrija.djerasevic@gmail.com');
 
 /*Table structure for table `participate` */
 
@@ -65,15 +68,6 @@ CREATE TABLE `participate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
 /*Data for the table `participate` */
-
-insert  into `participate`(`employeeEmail`,`projectEventId`) values 
-('andrija.djerasevic@gmail.com','001maemhgbi5c7mjcms8b19ido'),
-('andrija.djerasevic@gmail.com','03n2jans4ru00hmqmn0k6na4dg'),
-('andrija.djerasevic@gmail.com','16'),
-('andrija.djerasevic@gmail.com','ag7a9j3fjv5ngn0a54lrug46t8'),
-('andrija.djerasevic@gmail.com','b4sue7bqi9h91f59jt1itd4h2c'),
-('andrija.djerasevic@gmail.com','lv4jm7hinj4gdib2imvm952nmk'),
-('andrija.djerasevic@gmail.com','p6lvlo7cpkfi9gselu58llfm74');
 
 /*Table structure for table `projectevent` */
 
@@ -93,15 +87,6 @@ CREATE TABLE `projectevent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_bin;
 
 /*Data for the table `projectevent` */
-
-insert  into `projectevent`(`projectEventId`,`projectEventName`,`projectEventLocation`,`projectEventDescription`,`startDate`,`endDate`,`adminEmail`) values 
-('001maemhgbi5c7mjcms8b19ido','Test Save','Belgrade','Testing Save','2022-04-25 18:37:53','2022-04-26 18:37:57','andrija.djerasevic@gmail.com'),
-('03n2jans4ru00hmqmn0k6na4dg','Test Save','Belgrade','Testing Save','2022-04-25 18:37:53','2022-04-26 18:37:57','andrija.djerasevic@gmail.com'),
-('16','Test Save sndsjandjansk','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
-('ag7a9j3fjv5ngn0a54lrug46t8','Test Save','Belgrade','Testing Save','2022-04-25 18:37:53','2022-04-26 18:37:57','andrija.djerasevic@gmail.com'),
-('b4sue7bqi9h91f59jt1itd4h2c','Test Save','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
-('lv4jm7hinj4gdib2imvm952nmk','Test Save','Belgrade','Testing Save','2022-04-23 18:37:53','2022-04-24 18:37:57','andrija.djerasevic@gmail.com'),
-('p6lvlo7cpkfi9gselu58llfm74','Test Save','Belgrade','Testing Save','2022-04-25 18:37:53','2022-04-26 18:37:57','andrija.djerasevic@gmail.com');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
