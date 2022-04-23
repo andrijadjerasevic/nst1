@@ -66,6 +66,7 @@ public class ProjectEventServiceImpl implements ProjectEventService {
   }
 
   @Override
+  @Transactional
   public ProjectEvent update(ProjectEvent updatedProjectEvent) {
     try {
       // we first create google event from updated project event and update it in google

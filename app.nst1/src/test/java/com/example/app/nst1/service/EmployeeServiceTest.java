@@ -1,5 +1,6 @@
 package com.example.app.nst1.service;
 
+import com.example.app.nst1.model.Admin;
 import com.example.app.nst1.model.Employee;
 import com.example.app.nst1.repository.EmployeeRepository;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -38,7 +39,8 @@ public class EmployeeServiceTest {
     return new Employee(
         RandomStringUtils.randomAlphabetic(5),
         RandomStringUtils.randomAlphabetic(5),
-        RandomStringUtils.randomAlphabetic(5));
+        RandomStringUtils.randomAlphabetic(5),
+        new Admin("adminEmail", "adminPassword"));
   }
 
   @Test
@@ -75,6 +77,7 @@ public class EmployeeServiceTest {
     updatedEmployee.setEmployeeEmail(employee.get().getEmployeeEmail());
     updatedEmployee.setFirstName(RandomStringUtils.randomAlphabetic(5));
     updatedEmployee.setLastName(RandomStringUtils.randomAlphabetic(5));
+    updatedEmployee.setAdmin(employee.get().getAdmin());
 
     Mockito.when(employeeRepository.findByEmail(employee.get().getEmployeeEmail()))
         .thenReturn(Optional.of(updatedEmployee));
@@ -82,12 +85,14 @@ public class EmployeeServiceTest {
     employeeRepository.updateEmployee(
         updatedEmployee.getFirstName(),
         updatedEmployee.getLastName(),
+        updatedEmployee.getAdmin(),
         updatedEmployee.getEmployeeEmail());
 
     Mockito.verify(employeeRepository, Mockito.times(1))
         .updateEmployee(
             updatedEmployee.getFirstName(),
             updatedEmployee.getLastName(),
+            updatedEmployee.getAdmin(),
             updatedEmployee.getEmployeeEmail());
 
     Optional<Employee> foundEmployee =

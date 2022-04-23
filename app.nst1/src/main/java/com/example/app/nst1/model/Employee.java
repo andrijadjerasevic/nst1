@@ -28,7 +28,6 @@ public class Employee implements Serializable {
   @Column(name = "lastName")
   private String lastName;
 
-  // TODO: 13-Apr-22 investigate this, when save return whole object with all values
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "adminEmail", referencedColumnName = "adminEmail")
   @NotNull

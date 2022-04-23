@@ -1,5 +1,6 @@
 package com.example.app.nst1.repository;
 
+import com.example.app.nst1.model.Admin;
 import com.example.app.nst1.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,6 +18,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
   void deleteByEmail(String employeeEmail);
 
   @Modifying
-  @Query("UPDATE Employee e SET e.firstName = ?1, e.lastName = ?2 WHERE e.employeeEmail = ?3")
-  void updateEmployee(String firstName, String lastName, String employeeEmail);
+  @Query(
+      "UPDATE Employee e SET e.firstName = ?1, e.lastName = ?2, e.admin = ?3 WHERE e.employeeEmail = ?4")
+  void updateEmployee(String firstName, String lastName, Admin admin, String employeeEmail);
 }

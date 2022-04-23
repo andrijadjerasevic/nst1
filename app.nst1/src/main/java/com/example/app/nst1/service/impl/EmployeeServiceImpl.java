@@ -34,11 +34,15 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
+  @Transactional
   public Employee update(Employee employee) {
-    // TODO: 23-Apr-22 throw Exception
-    //    we want to update just firstName and lastName, not email since it is a primary key
+    // we want to update just firstName and lastName and admin, not employee email since it is a
+    // primary key
     employeeRepository.updateEmployee(
-        employee.getFirstName(), employee.getLastName(), employee.getEmployeeEmail());
+        employee.getFirstName(),
+        employee.getLastName(),
+        employee.getAdmin(),
+        employee.getEmployeeEmail());
     Optional<Employee> updateEmployee = findBy(employee.getEmployeeEmail());
     return updateEmployee.orElse(new Employee());
   }
