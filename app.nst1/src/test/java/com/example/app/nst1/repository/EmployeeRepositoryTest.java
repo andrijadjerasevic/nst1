@@ -56,12 +56,20 @@ public class EmployeeRepositoryTest {
   @Test
   @Transactional
   public void updateTest() {
-    Employee updatedEmployee = employeeRepository.save(generateEmployee());
-    Assertions.assertNotNull(updatedEmployee);
-    Optional<Employee> expectedEmployee =
-        employeeRepository.findByEmail(updatedEmployee.getEmployeeEmail());
-    Assertions.assertTrue(expectedEmployee.isPresent());
-    Assertions.assertEquals(expectedEmployee.get(), updatedEmployee);
+    Employee updatedEmployee = generateEmployee();
+    updatedEmployee.setEmployeeEmail(expectedEmployee.getEmployeeEmail());
+
+    employeeRepository.updateEmployee(
+        updatedEmployee.getFirstName(),
+        updatedEmployee.getLastName(),
+        updatedEmployee.getAdmin(),
+        updatedEmployee.getEmployeeEmail());
+
+    Optional<Employee> foundUpdatedEmployee =
+        employeeRepository.findByEmail(expectedEmployee.getEmployeeEmail());
+
+    Assertions.assertTrue(foundUpdatedEmployee.isPresent());
+    Assertions.assertEquals(updatedEmployee, foundUpdatedEmployee.get());
   }
 
   @Test

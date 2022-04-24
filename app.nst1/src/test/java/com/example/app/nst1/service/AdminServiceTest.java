@@ -80,7 +80,7 @@ public class AdminServiceTest {
         .thenReturn(Optional.of(updatedAdmin));
 
     adminRepository.updateAdminPassword(
-        admin.get().getAdminEmail(), updatedAdmin.getAdminPassword());
+        updatedAdmin.getAdminEmail(), updatedAdmin.getAdminPassword());
 
     Mockito.verify(adminRepository, Mockito.times(1))
         .updateAdminPassword(admin.get().getAdminEmail(), updatedAdmin.getAdminPassword());
@@ -93,11 +93,9 @@ public class AdminServiceTest {
 
   @Test
   public void deleteTest() {
-    Optional<Admin> admin = Optional.of(generateAdmin());
-    Mockito.when(adminRepository.findByEmail(admin.get().getAdminEmail())).thenReturn(admin);
-
-    adminService.deleteBy(admin.get().getAdminEmail());
-    Mockito.verify(adminRepository, Mockito.times(1)).deleteByEmail(admin.get().getAdminEmail());
+    Mockito.doNothing().when(adminRepository).deleteByEmail(expectedAdmin.getAdminEmail());
+    adminService.deleteBy(expectedAdmin.getAdminEmail());
+    Mockito.verify(adminRepository, Mockito.times(1)).deleteByEmail(expectedAdmin.getAdminEmail());
   }
 
   private Admin generateAdmin() {

@@ -129,6 +129,7 @@ public class ProjectEventServiceTest {
     Mockito.when(projectEventRepository.findById(projectEvent.get().getProjectEventId()))
         .thenReturn(Optional.of(updatedProjectEvent));
 
+    //    perform updated via save, we keep id, everything else is updatable
     projectEventRepository.save(updatedProjectEvent);
 
     Mockito.verify(projectEventRepository, Mockito.times(1)).save(updatedProjectEvent);
@@ -142,12 +143,11 @@ public class ProjectEventServiceTest {
 
   @Test
   public void deleteTest() {
-    Optional<ProjectEvent> projectEvent = Optional.of(generateProjectEvent());
-    Mockito.when(projectEventRepository.findById(projectEvent.get().getProjectEventId()))
-        .thenReturn(projectEvent);
-
-    projectEventService.deleteBy(projectEvent.get().getProjectEventId());
+    Mockito.doNothing()
+        .when(projectEventRepository)
+        .deleteById(expectedProjectEvent.getProjectEventId());
+    projectEventService.deleteBy(expectedProjectEvent.getProjectEventId());
     Mockito.verify(projectEventRepository, Mockito.times(1))
-        .deleteById(projectEvent.get().getProjectEventId());
+        .deleteById(expectedProjectEvent.getProjectEventId());
   }
 }

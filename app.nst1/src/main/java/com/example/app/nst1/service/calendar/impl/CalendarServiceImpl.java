@@ -69,7 +69,6 @@ public class CalendarServiceImpl {
   public Event sendEventToCalendar(Calendar service, Event googleEvent) throws Exception {
 
     googleEvent = service.events().insert(CALENDAR_ID, googleEvent).execute();
-    System.out.printf("Event created: %s\n", googleEvent.getHtmlLink());
     return googleEvent;
   }
 

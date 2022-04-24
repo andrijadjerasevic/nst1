@@ -35,7 +35,6 @@ public class EmployeeServiceTest {
   }
 
   private Employee generateEmployee() {
-    //    return new Employee("employeeMail", "firstName", "lastName");
     return new Employee(
         RandomStringUtils.randomAlphabetic(5),
         RandomStringUtils.randomAlphabetic(5),
@@ -45,10 +44,10 @@ public class EmployeeServiceTest {
 
   @Test
   public void saveTest() {
-    Employee employee = generateEmployee();
-    Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
-    Employee savedEmployee = employeeService.save(employee);
+    Mockito.when(employeeRepository.save(expectedEmployee)).thenReturn(expectedEmployee);
+    Employee savedEmployee = employeeService.save(expectedEmployee);
     Assertions.assertNotNull(savedEmployee);
+    Assertions.assertEquals(expectedEmployee, savedEmployee);
   }
 
   @Test
@@ -104,12 +103,9 @@ public class EmployeeServiceTest {
 
   @Test
   public void deleteTest() {
-    Optional<Employee> employee = Optional.of(generateEmployee());
-    Mockito.when(employeeRepository.findByEmail(employee.get().getEmployeeEmail()))
-        .thenReturn(employee);
-
-    employeeService.deleteBy(employee.get().getEmployeeEmail());
+    Mockito.doNothing().when(employeeRepository).deleteByEmail(expectedEmployee.getEmployeeEmail());
+    employeeService.deleteBy(expectedEmployee.getEmployeeEmail());
     Mockito.verify(employeeRepository, Mockito.times(1))
-        .deleteByEmail(employee.get().getEmployeeEmail());
+        .deleteByEmail(expectedEmployee.getEmployeeEmail());
   }
 }
