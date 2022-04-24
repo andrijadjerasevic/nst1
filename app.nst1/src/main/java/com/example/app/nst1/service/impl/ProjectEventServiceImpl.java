@@ -6,6 +6,8 @@ import com.example.app.nst1.service.ProjectEventService;
 import com.example.app.nst1.service.calendar.impl.CalendarServiceImpl;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,8 @@ import java.util.Optional;
 
 @Service
 public class ProjectEventServiceImpl implements ProjectEventService {
+
+  private static final Logger logger = LoggerFactory.getLogger(ProjectEventServiceImpl.class);
 
   private ProjectEventRepository projectEventRepository;
   private CalendarServiceImpl calendarService;
@@ -32,7 +36,10 @@ public class ProjectEventServiceImpl implements ProjectEventService {
       Event googleEvent =
           calendarService.sendEventToCalendar(service, calendarService.createEvent(projectEvent));
 
-      System.out.println("GOOGLE SAVED EVENT = " + googleEvent);
+      logger.info(
+          "GOOGLE EVENT SAVED: summary = {}, htmlLink = {}",
+          googleEvent.getSummary(),
+          googleEvent.getHtmlLink());
 
       projectEvent.setProjectEventId(googleEvent.getId());
     } catch (Exception e) {
@@ -46,7 +53,10 @@ public class ProjectEventServiceImpl implements ProjectEventService {
     try {
       Event googleFoundEvent =
           calendarService.findEvent(calendarService.initializeNewAuthorization(), id);
-      System.out.println("GOOGLE FOUND EVENT = " + googleFoundEvent);
+      logger.info(
+          "GOOGLE EVENT FOUND: summary = {}, htmlLink = {}",
+          googleFoundEvent.getSummary(),
+          googleFoundEvent.getHtmlLink());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -58,7 +68,14 @@ public class ProjectEventServiceImpl implements ProjectEventService {
     try {
       List<Event> googleEvents =
           calendarService.getAllGoogleEvents(calendarService.initializeNewAuthorization());
-      System.out.println("ALL GOOGLE EVENTS = " + googleEvents);
+      logger.info("ALL GOOGLE EVENTS");
+      googleEvents.forEach(
+          event -> {
+            logger.info(
+                "GOOGLE EVENT: summary = {}, htmlLink = {}",
+                event.getSummary(),
+                event.getHtmlLink());
+          });
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -78,7 +95,10 @@ public class ProjectEventServiceImpl implements ProjectEventService {
               updatedProjectEvent.getProjectEventId(),
               calendarService.createEvent(updatedProjectEvent));
 
-      System.out.println("GOOGLE UPDATED EVENT = " + googleUpdateEvent);
+      logger.info(
+          "GOOGLE EVENT UPDATED: summary = {}, htmlLink = {}",
+          googleUpdateEvent.getSummary(),
+          googleUpdateEvent.getHtmlLink());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -92,6 +112,7 @@ public class ProjectEventServiceImpl implements ProjectEventService {
     try {
       // delete Event from Google Calendar
       calendarService.deleteEvent(calendarService.initializeNewAuthorization(), id);
+      logger.info("GOOGLE EVENT DELETED");
     } catch (Exception e) {
       e.printStackTrace();
     }
