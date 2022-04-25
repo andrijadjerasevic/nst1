@@ -1,4 +1,4 @@
 export interface Admin {
-  adminEmail: string;
-  adminPassword: string;
+  adminEmail?: string;
+  adminPassword?: string;
 }
