@@ -55,7 +55,7 @@ public class AdminServiceImpl implements AdminService {
     if (updatedAdmin.isPresent()) {
       return updatedAdmin.get();
     }
-    throw new AdminException("Error during admin update!");
+    throw new AdminException("Error during admin update! Admin must exists in order to be updated!");
   }
 
   @Override

@@ -51,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     if (updateEmployee.isPresent()) {
       return updateEmployee.get();
     }
-    throw new EmployeeException("Error during employee update!");
+    throw new EmployeeException("Error during employee update! Employee must exists in order to be updated!");
   }
 
   @Override
