@@ -39,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   @Transactional
-  public Employee update(Employee employee) {
+  public Employee update(Employee employee) throws EmployeeException {
     // we want to update just firstName and lastName and admin, not employee email since it is a
     // primary key
     employeeRepository.updateEmployee(
@@ -48,8 +48,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.getAdmin(),
         employee.getEmployeeEmail());
     Optional<Employee> updateEmployee = findBy(employee.getEmployeeEmail());
-    //TODO: 25-Apr-22 throw exception
-    return updateEmployee.orElse(new Employee());
+    if (updateEmployee.isPresent()) {
+      return updateEmployee.get();
+    }
+    throw new EmployeeException("Error during employee update!");
   }
 
   @Override

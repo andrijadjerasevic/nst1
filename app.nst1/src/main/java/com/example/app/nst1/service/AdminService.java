@@ -12,13 +12,13 @@ import java.util.Optional;
 public interface AdminService extends GenericOperationsService<Admin, String> {
   Admin login(String adminEmail, String adminPassword) throws AdminException;
 
-  Admin save(Admin admin) throws Exception;
+  Admin save(Admin admin) throws AdminException;
 
   Optional<Admin> findBy(String adminEmail);
 
   List<Admin> findAll();
 
-  Admin update(Admin admin);
+  Admin update(Admin admin) throws AdminException;
 
   void deleteBy(String email);
 }

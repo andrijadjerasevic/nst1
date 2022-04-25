@@ -1,5 +1,6 @@
 package com.example.app.nst1.controller;
 
+import com.example.app.nst1.exceptions.ProjectEventException;
 import com.example.app.nst1.model.ProjectEvent;
 import com.example.app.nst1.service.ProjectEventService;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,13 @@ public class ProjectEventController {
 
   @PostMapping("save")
   public @ResponseBody ResponseEntity<ProjectEvent> save(
-      @RequestBody @Valid ProjectEvent projectEvent) throws Exception {
+      @RequestBody @Valid ProjectEvent projectEvent) throws ProjectEventException {
     return ResponseEntity.status(HttpStatus.OK).body(projectEventService.save(projectEvent));
   }
 
   @GetMapping("get/{id}")
   public @ResponseBody ResponseEntity<ProjectEvent> findById(@PathVariable String id)
-      throws Exception {
+      throws ProjectEventException {
     Optional<ProjectEvent> foundEvent = projectEventService.findBy(id);
     if (foundEvent.isPresent()) {
       return ResponseEntity.status(HttpStatus.OK).body(foundEvent.get());
@@ -39,13 +40,13 @@ public class ProjectEventController {
   }
 
   @GetMapping("get/all")
-  public @ResponseBody ResponseEntity<List<ProjectEvent>> findAll() throws Exception {
+  public @ResponseBody ResponseEntity<List<ProjectEvent>> findAll() throws ProjectEventException {
     return ResponseEntity.status(HttpStatus.OK).body(projectEventService.findAll());
   }
 
   @PostMapping("update")
   public @ResponseBody ResponseEntity<ProjectEvent> update(
-      @RequestBody @Valid ProjectEvent projectEvent) throws Exception {
+      @RequestBody @Valid ProjectEvent projectEvent) throws ProjectEventException {
     if (projectEvent.getProjectEventId() != null) {
       return ResponseEntity.status(HttpStatus.OK).body(projectEventService.update(projectEvent));
     } else {
@@ -54,7 +55,7 @@ public class ProjectEventController {
   }
 
   @GetMapping("delete/{id}")
-  public @ResponseBody ResponseEntity delete(@PathVariable String id) throws Exception {
+  public @ResponseBody ResponseEntity delete(@PathVariable String id) throws ProjectEventException {
     projectEventService.deleteBy(id);
     return ResponseEntity.status(HttpStatus.OK).body("EVENT DELETED");
   }

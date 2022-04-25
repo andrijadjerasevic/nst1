@@ -1,5 +1,6 @@
 package com.example.app.nst1.controller;
 
+import com.example.app.nst1.exceptions.EmployeeException;
 import com.example.app.nst1.model.Employee;
 import com.example.app.nst1.service.EmployeeService;
 import org.json.JSONObject;
@@ -24,7 +25,7 @@ public class EmployeeController {
 
   @PostMapping("save")
   public @ResponseBody ResponseEntity<Employee> save(@RequestBody @Valid Employee employee)
-      throws Exception {
+      throws EmployeeException {
     return ResponseEntity.status(HttpStatus.OK).body(employeeService.save(employee));
   }
 
@@ -46,7 +47,8 @@ public class EmployeeController {
   }
 
   @PostMapping("update")
-  public @ResponseBody ResponseEntity<Employee> update(@RequestBody @Valid Employee employee) {
+  public @ResponseBody ResponseEntity<Employee> update(@RequestBody @Valid Employee employee)
+      throws EmployeeException {
     if (employee.getEmployeeEmail() != null) {
       return ResponseEntity.status(HttpStatus.OK).body(employeeService.update(employee));
     } else {

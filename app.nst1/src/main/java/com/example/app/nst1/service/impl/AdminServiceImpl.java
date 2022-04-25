@@ -48,11 +48,14 @@ public class AdminServiceImpl implements AdminService {
 
   @Override
   @Transactional
-  public Admin update(Admin admin) {
+  public Admin update(Admin admin) throws AdminException {
     // only admin password could be updated, because admin email is primary key
     adminRepository.updateAdminPassword(admin.getAdminEmail(), admin.getAdminPassword());
     Optional<Admin> updatedAdmin = adminRepository.findByEmail(admin.getAdminEmail());
-    return updatedAdmin.orElse(new Admin());
+    if (updatedAdmin.isPresent()) {
+      return updatedAdmin.get();
+    }
+    throw new AdminException("Error during admin update!");
   }
 
   @Override

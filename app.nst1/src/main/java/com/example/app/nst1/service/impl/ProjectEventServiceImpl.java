@@ -55,8 +55,7 @@ public class ProjectEventServiceImpl implements ProjectEventService {
   public Optional<ProjectEvent> findBy(String id) throws ProjectEventException {
     try {
       Calendar service = calendarService.initializeNewAuthorization();
-      Event googleFoundEvent =
-          calendarService.findEvent(service, id);
+      Event googleFoundEvent = calendarService.findEvent(service, id);
       logger.info(
           "GOOGLE EVENT FOUND: summary = {}, htmlLink = {}",
           googleFoundEvent.getSummary(),

@@ -36,7 +36,7 @@ public class AdminController {
 
   @PostMapping("save")
   public @ResponseBody ResponseEntity<Admin> save(@RequestBody @Valid Admin admin)
-      throws Exception {
+      throws AdminException {
     return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
   }
 
@@ -57,7 +57,8 @@ public class AdminController {
   }
 
   @PostMapping("update")
-  public @ResponseBody ResponseEntity<Admin> update(@RequestBody @Valid Admin admin) {
+  public @ResponseBody ResponseEntity<Admin> update(@RequestBody @Valid Admin admin)
+      throws AdminException {
     if (admin.getAdminEmail() != null) {
       return ResponseEntity.status(HttpStatus.OK).body(adminService.update(admin));
     } else {
