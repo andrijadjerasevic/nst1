@@ -69,7 +69,7 @@ public class AdminServiceTest {
   }
 
   @Test
-  public void updateTest() {
+  public void updateTest() throws Exception {
     Optional<Admin> admin = Optional.of(generateAdmin());
     Admin updatedAdmin = new Admin();
     updatedAdmin.setAdminEmail(admin.get().getAdminEmail());

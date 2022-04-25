@@ -96,7 +96,7 @@ public class EmployeeControllerTest {
   }
 
   @Test
-  public void deleteTest() throws Exception {
+  public void deleteTest() {
     employeeService.deleteBy(employee.getEmployeeEmail());
     Mockito.verify(employeeService, Mockito.times(1)).deleteBy(employee.getEmployeeEmail());
     Optional<Employee> result = employeeService.findBy(employee.getEmployeeEmail());

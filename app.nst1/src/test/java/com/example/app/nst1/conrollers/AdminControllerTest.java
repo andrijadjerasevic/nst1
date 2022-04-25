@@ -114,7 +114,7 @@ public class AdminControllerTest {
   }
 
   @Test
-  public void deleteTest() throws Exception {
+  public void deleteTest() {
     adminService.deleteBy(admin.getAdminEmail());
     Mockito.verify(adminService, Mockito.times(1)).deleteBy(admin.getAdminEmail());
     Optional<Admin> result = adminService.findBy(admin.getAdminEmail());
