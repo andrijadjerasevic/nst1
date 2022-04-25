@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -22,9 +25,9 @@ public class ProjectEventRepositoryTest {
   private List<ProjectEvent> expectedProjectEvents;
 
   @BeforeAll
-  public void beforeAll() {
+  public void setUp() {
     expectedProjectEvent = generateProjectEvent();
-    expectedProjectEvents = Arrays.asList(expectedProjectEvent);
+    expectedProjectEvents = List.of(expectedProjectEvent);
     projectEventRepository.save(expectedProjectEvent);
   }
 

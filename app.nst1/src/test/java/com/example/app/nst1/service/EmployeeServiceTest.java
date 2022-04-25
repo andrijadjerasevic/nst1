@@ -29,7 +29,7 @@ public class EmployeeServiceTest {
   private List<Employee> expectedEmployees;
 
   @BeforeAll
-  public void beforeAll() {
+  public void setUp() {
     expectedEmployee = generateEmployee();
     expectedEmployees = Arrays.asList(expectedEmployee);
   }
@@ -43,9 +43,9 @@ public class EmployeeServiceTest {
   }
 
   @Test
-  public void saveTest() {
+  public void saveTest() throws Exception {
     Mockito.when(employeeRepository.save(expectedEmployee)).thenReturn(expectedEmployee);
-    Employee savedEmployee = employeeService.save(expectedEmployee);
+    Employee savedEmployee = savedEmployee = employeeService.save(expectedEmployee);
     Assertions.assertNotNull(savedEmployee);
     Assertions.assertEquals(expectedEmployee, savedEmployee);
   }
@@ -69,7 +69,7 @@ public class EmployeeServiceTest {
   }
 
   @Test
-  public void updateTest() {
+  public void updateTest() throws Exception {
     Optional<Employee> employee = Optional.of(generateEmployee());
 
     Employee updatedEmployee = new Employee();
@@ -81,11 +81,7 @@ public class EmployeeServiceTest {
     Mockito.when(employeeRepository.findByEmail(employee.get().getEmployeeEmail()))
         .thenReturn(Optional.of(updatedEmployee));
 
-    employeeRepository.updateEmployee(
-        updatedEmployee.getFirstName(),
-        updatedEmployee.getLastName(),
-        updatedEmployee.getAdmin(),
-        updatedEmployee.getEmployeeEmail());
+    employeeService.update(updatedEmployee);
 
     Mockito.verify(employeeRepository, Mockito.times(1))
         .updateEmployee(
@@ -94,8 +90,7 @@ public class EmployeeServiceTest {
             updatedEmployee.getAdmin(),
             updatedEmployee.getEmployeeEmail());
 
-    Optional<Employee> foundEmployee =
-        employeeRepository.findByEmail(employee.get().getEmployeeEmail());
+    Optional<Employee> foundEmployee = employeeService.findBy(updatedEmployee.getEmployeeEmail());
 
     Assertions.assertTrue(foundEmployee.isPresent());
     Assertions.assertEquals(updatedEmployee, foundEmployee.get());

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,9 +27,9 @@ public class AdminServiceTest {
   private List<Admin> expectedAdmins;
 
   @BeforeAll
-  public void beforeAll() {
+  public void setUp() {
     expectedAdmin = generateAdmin();
-    expectedAdmins = Arrays.asList(expectedAdmin);
+    expectedAdmins = List.of(expectedAdmin);
   }
 
   @Test
@@ -45,7 +44,7 @@ public class AdminServiceTest {
   }
 
   @Test
-  public void saveTest() {
+  public void saveTest() throws Exception {
     Mockito.when(adminRepository.save(expectedAdmin)).thenReturn(expectedAdmin);
     Admin savedAdmin = adminService.save(expectedAdmin);
     Assertions.assertNotNull(savedAdmin);
@@ -76,16 +75,15 @@ public class AdminServiceTest {
     updatedAdmin.setAdminEmail(admin.get().getAdminEmail());
     updatedAdmin.setAdminPassword(RandomStringUtils.randomAlphabetic(5));
 
-    Mockito.when(adminRepository.findByEmail(admin.get().getAdminEmail()))
+    Mockito.when(adminRepository.findByEmail(updatedAdmin.getAdminEmail()))
         .thenReturn(Optional.of(updatedAdmin));
 
-    adminRepository.updateAdminPassword(
-        updatedAdmin.getAdminEmail(), updatedAdmin.getAdminPassword());
+    adminService.update(updatedAdmin);
 
     Mockito.verify(adminRepository, Mockito.times(1))
         .updateAdminPassword(admin.get().getAdminEmail(), updatedAdmin.getAdminPassword());
 
-    Optional<Admin> foundAdmin = adminRepository.findByEmail(admin.get().getAdminEmail());
+    Optional<Admin> foundAdmin = adminRepository.findByEmail(updatedAdmin.getAdminEmail());
 
     Assertions.assertTrue(foundAdmin.isPresent());
     Assertions.assertEquals(updatedAdmin, foundAdmin.get());

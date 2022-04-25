@@ -10,17 +10,17 @@ import java.util.Optional;
 @Service
 public interface ProjectEventService extends GenericOperationsService<ProjectEvent, String> {
   @Override
-  ProjectEvent save(ProjectEvent projectEvent);
+  ProjectEvent save(ProjectEvent projectEvent) throws Exception;
 
   @Override
-  Optional<ProjectEvent> findBy(String id);
+  Optional<ProjectEvent> findBy(String id) throws Exception;
 
   @Override
-  List<ProjectEvent> findAll();
+  List<ProjectEvent> findAll() throws Exception;
 
   @Override
-  ProjectEvent update(ProjectEvent projectEvent);
+  ProjectEvent update(ProjectEvent projectEvent) throws Exception;
 
   @Override
-  void deleteBy(String id);
+  void deleteBy(String id) throws Exception;
 }

@@ -23,12 +23,13 @@ public class ProjectEventController {
 
   @PostMapping("save")
   public @ResponseBody ResponseEntity<ProjectEvent> save(
-      @RequestBody @Valid ProjectEvent projectEvent) {
+      @RequestBody @Valid ProjectEvent projectEvent) throws Exception {
     return ResponseEntity.status(HttpStatus.OK).body(projectEventService.save(projectEvent));
   }
 
   @GetMapping("get/{id}")
-  public @ResponseBody ResponseEntity<ProjectEvent> findById(@PathVariable String id) {
+  public @ResponseBody ResponseEntity<ProjectEvent> findById(@PathVariable String id)
+      throws Exception {
     Optional<ProjectEvent> foundEvent = projectEventService.findBy(id);
     if (foundEvent.isPresent()) {
       return ResponseEntity.status(HttpStatus.OK).body(foundEvent.get());
@@ -38,13 +39,13 @@ public class ProjectEventController {
   }
 
   @GetMapping("get/all")
-  public @ResponseBody ResponseEntity<List<ProjectEvent>> findAll() {
+  public @ResponseBody ResponseEntity<List<ProjectEvent>> findAll() throws Exception {
     return ResponseEntity.status(HttpStatus.OK).body(projectEventService.findAll());
   }
 
   @PostMapping("update")
   public @ResponseBody ResponseEntity<ProjectEvent> update(
-      @RequestBody @Valid ProjectEvent projectEvent) {
+      @RequestBody @Valid ProjectEvent projectEvent) throws Exception {
     if (projectEvent.getProjectEventId() != null) {
       return ResponseEntity.status(HttpStatus.OK).body(projectEventService.update(projectEvent));
     } else {
@@ -53,7 +54,7 @@ public class ProjectEventController {
   }
 
   @GetMapping("delete/{id}")
-  public @ResponseBody ResponseEntity delete(@PathVariable String id) {
+  public @ResponseBody ResponseEntity delete(@PathVariable String id) throws Exception {
     projectEventService.deleteBy(id);
     return ResponseEntity.status(HttpStatus.OK).body("EVENT DELETED");
   }

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public interface EmployeeService extends GenericOperationsService<Employee, String> {
   @Override
-  Employee save(Employee employee);
+  Employee save(Employee employee) throws Exception;
 
   @Override
   Optional<Employee> findBy(String email);

@@ -18,7 +18,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @WebMvcTest(ProjectEventController.class)
 public class ProjectEventControllerTest {
@@ -33,7 +36,7 @@ public class ProjectEventControllerTest {
   private List<ProjectEvent> projectEvents;
 
   @BeforeEach
-  public void beforeEach() {
+  public void setUp() {
     Date startDate = new DateTime(new Date()).toDate();
     Date endDate = new DateTime(new Date()).plus(1).toDate();
     projectEvent =
@@ -44,7 +47,7 @@ public class ProjectEventControllerTest {
             "projectEventDescription",
             startDate,
             endDate);
-    projectEvents = Arrays.asList(projectEvent);
+    projectEvents = List.of(projectEvent);
   }
 
   @Test

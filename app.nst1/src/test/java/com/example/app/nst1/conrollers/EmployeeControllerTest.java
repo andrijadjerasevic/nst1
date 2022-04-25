@@ -35,9 +35,9 @@ public class EmployeeControllerTest {
   private List<Employee> employees;
 
   @BeforeEach
-  public void beforeEach() {
+  public void setUp() {
     employee = new Employee("employeeFirstName", "employeeLastName", "employeeEmail");
-    employees = Arrays.asList(employee);
+    employees = List.of(employee);
   }
 
   @Test

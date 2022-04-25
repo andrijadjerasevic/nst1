@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GenericOperationsService<T, K> {
-  T save(T t);
+  T save(T t) throws Exception;
 
-  Optional<T> findBy(K k);
+  Optional<T> findBy(K k) throws Exception;
 
-  List<T> findAll();
+  List<T> findAll() throws Exception;
 
-  T update(T t);
+  T update(T t) throws Exception;
 
-  void deleteBy(K k);
+  void deleteBy(K k) throws Exception;
 }

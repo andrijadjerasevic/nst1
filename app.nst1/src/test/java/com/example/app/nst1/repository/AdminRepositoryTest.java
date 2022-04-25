@@ -25,9 +25,9 @@ public class AdminRepositoryTest {
   private List<Admin> expectedAdmins;
 
   @BeforeAll
-  public void beforeAll() {
+  public void setUp() {
     expectedAdmin = generateAdmin();
-    expectedAdmins = Arrays.asList(expectedAdmin);
+    expectedAdmins = List.of(expectedAdmin);
     adminRepository.save(expectedAdmin);
   }
 

@@ -1,5 +1,6 @@
 package com.example.app.nst1.service.impl;
 
+import com.example.app.nst1.exceptions.ProjectEventException;
 import com.example.app.nst1.model.ProjectEvent;
 import com.example.app.nst1.repository.ProjectEventRepository;
 import com.example.app.nst1.service.ProjectEventService;
@@ -29,7 +30,9 @@ public class ProjectEventServiceImpl implements ProjectEventService {
   }
 
   @Override
-  public ProjectEvent save(ProjectEvent projectEvent) {
+  public ProjectEvent save(ProjectEvent projectEvent) throws ProjectEventException {
+    if (projectEventRepository.findById(projectEvent.getProjectEventId()).isPresent())
+      throw new ProjectEventException("Event already exists!");
     try {
       // we first create google event from project event and then send it to google calendar
       Calendar service = calendarService.initializeNewAuthorization();
@@ -43,28 +46,29 @@ public class ProjectEventServiceImpl implements ProjectEventService {
 
       projectEvent.setProjectEventId(googleEvent.getId());
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new ProjectEventException("Error while saving event!", e);
     }
     return projectEventRepository.save(projectEvent);
   }
 
   @Override
-  public Optional<ProjectEvent> findBy(String id) {
+  public Optional<ProjectEvent> findBy(String id) throws ProjectEventException {
     try {
+      Calendar service = calendarService.initializeNewAuthorization();
       Event googleFoundEvent =
-          calendarService.findEvent(calendarService.initializeNewAuthorization(), id);
+          calendarService.findEvent(service, id);
       logger.info(
           "GOOGLE EVENT FOUND: summary = {}, htmlLink = {}",
           googleFoundEvent.getSummary(),
           googleFoundEvent.getHtmlLink());
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new ProjectEventException("Error while finding event with id = " + id, e);
     }
     return projectEventRepository.findById(id);
   }
 
   @Override
-  public List<ProjectEvent> findAll() {
+  public List<ProjectEvent> findAll() throws ProjectEventException {
     try {
       List<Event> googleEvents =
           calendarService.getAllGoogleEvents(calendarService.initializeNewAuthorization());
@@ -77,14 +81,14 @@ public class ProjectEventServiceImpl implements ProjectEventService {
                 event.getHtmlLink());
           });
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new ProjectEventException("Error while fetching all events", e);
     }
     return projectEventRepository.findAll();
   }
 
   @Override
   @Transactional
-  public ProjectEvent update(ProjectEvent updatedProjectEvent) {
+  public ProjectEvent update(ProjectEvent updatedProjectEvent) throws ProjectEventException {
     try {
       // we first create google event from updated project event and update it in google
       // calendar
@@ -100,7 +104,8 @@ public class ProjectEventServiceImpl implements ProjectEventService {
           googleUpdateEvent.getSummary(),
           googleUpdateEvent.getHtmlLink());
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new ProjectEventException(
+          "Error while updating event with id = " + updatedProjectEvent.getProjectEventId(), e);
     }
 
     return projectEventRepository.save(updatedProjectEvent);
@@ -108,13 +113,13 @@ public class ProjectEventServiceImpl implements ProjectEventService {
 
   @Override
   @Transactional
-  public void deleteBy(String id) {
+  public void deleteBy(String id) throws ProjectEventException {
     try {
       // delete Event from Google Calendar
       calendarService.deleteEvent(calendarService.initializeNewAuthorization(), id);
       logger.info("GOOGLE EVENT DELETED");
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new ProjectEventException("Error while deleting  event with id = " + id, e);
     }
     // delete Event form Database
     projectEventRepository.deleteById(id);

@@ -8,9 +8,9 @@ import com.google.api.services.calendar.model.Event;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ProjectEventServiceTest {
 
   @Autowired private ProjectEventService projectEventService;
@@ -39,27 +38,36 @@ public class ProjectEventServiceTest {
   private ProjectEvent expectedProjectEvent;
   private List<ProjectEvent> expectedProjectEvents;
 
-  @BeforeAll
-  public void beforeAll() throws Exception {
+  @BeforeEach
+  public void setUp() throws Exception {
     expectedProjectEvent = generateProjectEvent();
     expectedProjectEvents = Arrays.asList(expectedProjectEvent);
-
-    googleEvent = generateGoogleEvent(expectedProjectEvent);
+    googleEvent =
+        generateGoogleEvent(expectedProjectEvent, expectedProjectEvent.getProjectEventId());
     googleEvents = Arrays.asList(googleEvent);
-
     Mockito.when(calendarService.initializeNewAuthorization()).thenReturn(service);
-    Mockito.when(calendarService.createEvent(expectedProjectEvent)).thenReturn(googleEvent);
-    Mockito.when(calendarService.sendEventToCalendar(service, googleEvent)).thenReturn(googleEvent);
-    Mockito.when(calendarService.findEvent(service, googleEvent.getId())).thenReturn(googleEvent);
-    Mockito.when(calendarService.getAllGoogleEvents(service)).thenReturn(googleEvents);
+    Mockito.when(calendarService.createEvent(ArgumentMatchers.any(ProjectEvent.class)))
+        .thenReturn(googleEvent);
+    Mockito.when(
+            calendarService.sendEventToCalendar(
+                ArgumentMatchers.any(Calendar.class), ArgumentMatchers.any(Event.class)))
+        .thenReturn(googleEvent);
+    Mockito.when(
+            calendarService.findEvent(
+                ArgumentMatchers.any(Calendar.class), ArgumentMatchers.anyString()))
+        .thenReturn(googleEvent);
+    Mockito.when(calendarService.getAllGoogleEvents(ArgumentMatchers.any(Calendar.class)))
+        .thenReturn(googleEvents);
     Mockito.when(
             calendarService.updateEvent(
-                service, expectedProjectEvent.getProjectEventId(), googleEvent))
+                ArgumentMatchers.any(Calendar.class),
+                ArgumentMatchers.anyString(),
+                ArgumentMatchers.any(Event.class)))
         .thenReturn(googleEvent);
     CalendarServiceImpl calendarServiceMock = Mockito.mock(CalendarServiceImpl.class);
     Mockito.doNothing()
         .when(calendarServiceMock)
-        .deleteEvent(service, expectedProjectEvent.getProjectEventId());
+        .deleteEvent(ArgumentMatchers.any(Calendar.class), ArgumentMatchers.anyString());
   }
 
   private ProjectEvent generateProjectEvent() {
@@ -72,12 +80,13 @@ public class ProjectEventServiceTest {
         new DateTime().plusDays(2).toDate());
   }
 
-  private Event generateGoogleEvent(ProjectEvent projectEvent) {
+  private Event generateGoogleEvent(ProjectEvent projectEvent, String googleEventId) {
     return new Event()
-        .setId(UUID.randomUUID().toString())
+        .setId(googleEventId)
         .setSummary(projectEvent.getProjectEventName())
         .setLocation(projectEvent.getProjectEventLocation())
         .setDescription(projectEvent.getProjectEventDescription())
+        .setHtmlLink("https://google.com")
         .setColorId("6");
   }
 
@@ -93,7 +102,7 @@ public class ProjectEventServiceTest {
   }
 
   @Test
-  public void findByTest() {
+  public void findByTest() throws Exception {
     Mockito.when(projectEventRepository.findById(expectedProjectEvent.getProjectEventId()))
         .thenReturn(Optional.of(expectedProjectEvent));
 
@@ -104,7 +113,7 @@ public class ProjectEventServiceTest {
   }
 
   @Test
-  public void findAllTest() {
+  public void findAllTest() throws Exception {
     Mockito.when(projectEventRepository.findAll()).thenReturn(expectedProjectEvents);
     List<ProjectEvent> foundProjectEvents = projectEventService.findAll();
     Assertions.assertTrue(foundProjectEvents != null && !foundProjectEvents.isEmpty());
@@ -112,7 +121,7 @@ public class ProjectEventServiceTest {
   }
 
   @Test
-  public void updateTest() {
+  public void updateTest() throws Exception {
     Optional<ProjectEvent> projectEvent = Optional.of(generateProjectEvent());
 
     ProjectEvent updatedProjectEvent = new ProjectEvent();
@@ -121,16 +130,13 @@ public class ProjectEventServiceTest {
     updatedProjectEvent.setProjectEventName(RandomStringUtils.randomAlphabetic(5));
     updatedProjectEvent.setProjectEventDescription(RandomStringUtils.randomAlphabetic(5));
     updatedProjectEvent.setProjectEventLocation(RandomStringUtils.randomAlphabetic(5));
-
     updatedProjectEvent.setStartDate(projectEvent.get().getStartDate());
     updatedProjectEvent.setEndDate(projectEvent.get().getEndDate());
 
-    //    when we update project, we search for that updated project
-    Mockito.when(projectEventRepository.findById(projectEvent.get().getProjectEventId()))
+    Mockito.when(projectEventRepository.findById(updatedProjectEvent.getProjectEventId()))
         .thenReturn(Optional.of(updatedProjectEvent));
 
-    //    perform updated via save, we keep id, everything else is updatable
-    projectEventRepository.save(updatedProjectEvent);
+    projectEventService.update(updatedProjectEvent);
 
     Mockito.verify(projectEventRepository, Mockito.times(1)).save(updatedProjectEvent);
 
@@ -142,7 +148,7 @@ public class ProjectEventServiceTest {
   }
 
   @Test
-  public void deleteTest() {
+  public void deleteTest() throws Exception {
     Mockito.doNothing()
         .when(projectEventRepository)
         .deleteById(expectedProjectEvent.getProjectEventId());

@@ -1,5 +1,6 @@
 package com.example.app.nst1.service.impl;
 
+import com.example.app.nst1.exceptions.EmployeeException;
 import com.example.app.nst1.model.Employee;
 import com.example.app.nst1.repository.EmployeeRepository;
 import com.example.app.nst1.service.EmployeeService;
@@ -19,7 +20,10 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   @Override
-  public Employee save(Employee employee) {
+  public Employee save(Employee employee) throws EmployeeException {
+    if (employeeRepository.findByEmail(employee.getEmployeeEmail()).isPresent()) {
+      throw new EmployeeException("Employee already exists!");
+    }
     return employeeRepository.save(employee);
   }
 
@@ -44,6 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.getAdmin(),
         employee.getEmployeeEmail());
     Optional<Employee> updateEmployee = findBy(employee.getEmployeeEmail());
+    //TODO: 25-Apr-22 throw exception
     return updateEmployee.orElse(new Employee());
   }
 

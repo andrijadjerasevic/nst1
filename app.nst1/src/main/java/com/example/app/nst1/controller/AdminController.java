@@ -35,7 +35,8 @@ public class AdminController {
   }
 
   @PostMapping("save")
-  public @ResponseBody ResponseEntity<Admin> save(@RequestBody @Valid Admin admin) {
+  public @ResponseBody ResponseEntity<Admin> save(@RequestBody @Valid Admin admin)
+      throws Exception {
     return ResponseEntity.status(HttpStatus.OK).body(adminService.save(admin));
   }
 

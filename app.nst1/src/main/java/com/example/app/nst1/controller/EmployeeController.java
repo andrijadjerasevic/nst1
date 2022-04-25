@@ -23,7 +23,8 @@ public class EmployeeController {
   }
 
   @PostMapping("save")
-  public @ResponseBody ResponseEntity<Employee> save(@RequestBody @Valid Employee employee) {
+  public @ResponseBody ResponseEntity<Employee> save(@RequestBody @Valid Employee employee)
+      throws Exception {
     return ResponseEntity.status(HttpStatus.OK).body(employeeService.save(employee));
   }
 

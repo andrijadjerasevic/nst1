@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +22,9 @@ public class EmployeeRepositoryTest {
   private List<Employee> expectedEmployees;
 
   @BeforeAll
-  public void beforeAll() {
+  public void setUp() {
     expectedEmployee = generateEmployee();
-    expectedEmployees = Arrays.asList(expectedEmployee);
+    expectedEmployees = List.of(expectedEmployee);
     employeeRepository.save(expectedEmployee);
   }
 

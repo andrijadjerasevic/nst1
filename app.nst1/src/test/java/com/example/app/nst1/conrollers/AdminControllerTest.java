@@ -35,9 +35,9 @@ public class AdminControllerTest {
   private List<Admin> admins;
 
   @BeforeEach
-  public void beforeEach() {
+  public void setUp() {
     admin = new Admin("adminEmail", "adminPassword");
-    admins = Arrays.asList(admin);
+    admins = List.of(admin);
   }
 
   @Test
