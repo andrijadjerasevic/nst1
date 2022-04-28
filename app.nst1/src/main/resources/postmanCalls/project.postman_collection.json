@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "b7cefdfb-6cb5-4d30-b810-bd7aaa01b7dd",
+		"name": "project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get/all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employee\": \"pera.peric@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/projectEvent/get/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projectEvent",
+						"get",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get/{id}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employee\": \"pera.peric@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/projectEvent/get/uiglhu2spp3prq1jer5on5i540",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projectEvent",
+						"get",
+						"uiglhu2spp3prq1jer5on5i540"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "save",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"projectEventName\": \"Test Save\",\r\n    \"projectEventLocation\": \"Belgrade\",\r\n    \"prohectEventDescription\": \"Testing Save\",\r\n    \"startDate\": \"2022-04-25T16:37:53.000+00:00\",\r\n    \"endDate\": \"2022-04-26T16:37:57.000+00:00\",\r\n    \"admin\": {\r\n        \"adminEmail\": \"andrija.djerasevic@gmail.com\"\r\n    },\r\n    \"employees\": [\r\n        {\r\n            \"employeeEmail\": \"andrija.djerasevic@gmail.com\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/projectEvent/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projectEvent",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"projectEventId\": \"rukbv6dr4d126l5g1kmhsaertg\",\r\n    \"projectEventName\": \"Test Save UPDATED ANDRIJA\",\r\n    \"projectEventLocation\": \"Belgrade\",\r\n    \"projectEventDescription\": \"Testing Save\",\r\n    \"startDate\": \"2022-04-23T16:37:53.000+00:00\",\r\n    \"endDate\": \"2022-04-24T16:37:57.000+00:00\",\r\n    \"admin\": {\r\n        \"adminEmail\": \"andrija.djerasevic@gmail.com\"\r\n    },\r\n    \"employees\": [\r\n        {\r\n            \"employeeEmail\": \"andrija.djerasevic@gmail.com\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/projectEvent/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projectEvent",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"projectId\": 17,\r\n    \"projectName\": \"Test Save 1\",\r\n    \"projectLocation\": \"Belgrade\",\r\n    \"projectDescription\": \"Testing Save\",\r\n    \"startDate\": \"2022-04-23T16:37:53.000+00:00\",\r\n    \"endDate\": \"2022-04-24T16:37:57.000+00:00\",\r\n    \"admin\": {\r\n        \"adminEmail\": \"andrija.djerasevic@gmail.com\"\r\n    },\r\n    \"employees\": [\r\n        {\r\n            \"employeeEmail\": \"andrija.djerasevic@gmail.com\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/projectEvent/delete/6v87tjuteq07249vpnum6cps2g",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"projectEvent",
+						"delete",
+						"6v87tjuteq07249vpnum6cps2g"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
