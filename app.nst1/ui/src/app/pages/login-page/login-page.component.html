@@ -1,5 +1,9 @@
+<h1>{{ title }}</h1>
 <div class="w-100 d-flex justify-content-center">
   <div class="p-4 border border-primary rounded w-25">
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
     <div class="form-group">
       <label for="email">Email</label>
       <input
@@ -18,10 +22,9 @@
         class="form-control"
       />
     </div>
-
     <div class="p-3 d-flex flex-row-reverse justify-content-around">
-      <button (click)="login()" class="p-2 btn btn-primary">Login</button>
       <button (click)="reset()" class="p-2 btn btn-danger">Reset</button>
+      <button (click)="login()" class="p-2 btn btn-primary">Login</button>
     </div>
   </div>
 </div>

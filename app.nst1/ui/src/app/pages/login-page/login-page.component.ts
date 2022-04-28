@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Admin } from 'src/app/models/admin.model';
-import { AdminApiService } from 'src/app/services/admin-api.service';
+import { Router } from '@angular/router';
+import { Admin } from 'src/app/shared/models/admin.model';
+import { AdminApiService } from 'src/app/shared/services/admin-api.service';
 
 @Component({
   selector: 'app-login-page',
@@ -8,9 +9,17 @@ import { AdminApiService } from 'src/app/services/admin-api.service';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent implements OnInit {
-  admin: Admin = {};
+  admin: Admin;
+  title = 'NST1 UI Application';
+  errorMessage: string;
 
-  constructor(private adminApiService: AdminApiService) {}
+  constructor(
+    private adminApiService: AdminApiService,
+    private router: Router
+  ) {
+    this.admin = {};
+    this.errorMessage = '';
+  }
 
   ngOnInit(): void {}
 
@@ -19,9 +28,11 @@ export class LoginPageComponent implements OnInit {
     this.adminApiService.login(this.admin).subscribe(
       (response) => {
         console.log('response -> ', response);
+        this.router.navigate(['/home']);
       },
       (error) => {
-        console.error('ERROR ->', error);
+        this.errorMessage = error.message;
+        console.error('error ->', error);
       }
     );
   }

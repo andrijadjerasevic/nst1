@@ -7,15 +7,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { HomeComponent } from './pages/home/home/home.component';
+import { MainMenuComponent } from './core/components/main-menu/main-menu.component';
+import { Menubar, MenubarModule } from 'primeng/menubar';
 
 @NgModule({
-  declarations: [AppComponent, LoginPageComponent],
+  declarations: [
+    AppComponent,
+    LoginPageComponent,
+    HomeComponent,
+    MainMenuComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
+    MenubarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
