@@ -1,13 +1,16 @@
-<!-- <div class="row">
-  <div class="col-5">
-    <app-project-event-table></app-project-event-table>
-  </div>
-  <div class="col-6">
-    <app-project-event-form></app-project-event-form>
-  </div>
-</div> -->
+<button class="btn btn-primary" (click)="addNewProjectEvent()">Add</button>
 
-<div style="display: flex; flex-grow: grow">
-  <app-project-event-table></app-project-event-table>
-  <app-project-event-form></app-project-event-form>
+<div class="row">
+  <div class="col-6" style="margin-right: 100px">
+    <app-project-event-table
+      [projectEventList]="projectEventList"
+      (detailsPorojectEvent)="detailOfProjectRvent($event)"
+    ></app-project-event-table>
+  </div>
+  <div class="col-5" *ngIf="selectedProjectEvent" style="margin-top: 20px">
+    <app-project-event-form
+      (projectEventSaved)="projectEventSaved($event)"
+      [projectEvent]="selectedProjectEvent"
+    ></app-project-event-form>
+  </div>
 </div>

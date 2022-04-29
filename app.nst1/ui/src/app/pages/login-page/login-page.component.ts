@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Admin } from 'src/app/shared/models/admin.model';
 import { AdminApiService } from 'src/app/shared/services/admin-api.service';
+import { PrincipalService } from 'src/app/shared/services/principal.service';
 
 @Component({
   selector: 'app-login-page',
@@ -15,7 +16,8 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private adminApiService: AdminApiService,
-    private router: Router
+    private router: Router,
+    private principal: PrincipalService
   ) {
     this.admin = {};
     this.errorMessage = '';
@@ -28,6 +30,7 @@ export class LoginPageComponent implements OnInit {
     this.adminApiService.login(this.admin).subscribe(
       (response) => {
         console.log('response -> ', response);
+        this.principal.loggedAdmin = response;
         this.router.navigate(['/home']);
       },
       (error) => {

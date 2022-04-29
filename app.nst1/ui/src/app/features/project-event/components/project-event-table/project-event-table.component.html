@@ -1,11 +1,8 @@
-<div *ngFor="let project of projectEventList">
-  <!-- {{ project | projectEventPipe }} -->
-</div>
-
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Project Event ID</th>
+      <!-- <th>Project Event ID</th> -->
+      <th>#</th>
       <th>Project Event Name</th>
       <th>Project Event Location</th>
       <th>Project Event Description</th>
@@ -16,7 +13,7 @@
   <tbody>
     <tr
       *ngFor="let project of projectEventList; let i = index"
-      [class.first]="i === 1"
+      [class.first]="i === 0"
     >
       <!-- todo class i === 0 not work!!! -->
       <td>{{ i + 1 }}</td>
@@ -33,3 +30,6 @@
     </tr>
   </tbody>
 </table>
+<!-- <div *ngFor="let project of projectEventList">
+  {{ project | projectEventPipe }}
+</div> -->

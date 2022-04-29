@@ -10,21 +10,17 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { HomeComponent } from './pages/home/home/home.component';
 import { MainMenuComponent } from './core/components/main-menu/main-menu.component';
 import { Menubar, MenubarModule } from 'primeng/menubar';
+import { SharedModule } from 'primeng/api';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginPageComponent,
-    HomeComponent,
-    MainMenuComponent,
-  ],
+  declarations: [AppComponent, LoginPageComponent, HomeComponent],
   imports: [
     BrowserModule,
+    SharedModule,
     AppRoutingModule,
-    CommonModule,
+    CoreModule,
     FormsModule,
-    HttpClientModule,
-    MenubarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

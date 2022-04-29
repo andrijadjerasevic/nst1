@@ -7,11 +7,16 @@ import { ProjectEvent } from '../models/projectEvent.model';
   providedIn: 'root',
 })
 export class ProjectEventApiService {
+  baseUrl = 'http://localhost:8080/projectEvent';
   constructor(private httpClient: HttpClient) {}
 
-  getAll(): Observable<ProjectEvent[]> {
-    return this.httpClient.get<ProjectEvent[]>(
-      'http://localhost:8080/projectEvent/get/all'
+  saveProjectEvent(projecEvent: ProjectEvent) {
+    return this.httpClient.post<ProjectEvent>(
+      `${this.baseUrl}/save`,
+      projecEvent
     );
+  }
+  getAll(): Observable<ProjectEvent[]> {
+    return this.httpClient.get<ProjectEvent[]>(`${this.baseUrl}/get/all`);
   }
 }

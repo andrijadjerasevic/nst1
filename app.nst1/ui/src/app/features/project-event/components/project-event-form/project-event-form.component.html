@@ -9,6 +9,14 @@
     />
   </div>
 
+  <div
+    *ngIf="
+      projecEventForm.get('projecEventName')?.touched &&
+      projecEventForm.get('projecEventName')?.invalid
+    "
+    class="alert alert-danger"
+  ></div>
+
   <div class="form-group">
     <label for="projectEventLocation">Project Event Location</label>
     <input

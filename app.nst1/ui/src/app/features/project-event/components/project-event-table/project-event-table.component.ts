@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProjectEvent } from 'src/app/shared/models/projectEvent.model';
 import { ProjectEventApiService } from 'src/app/shared/services/project-event-api.service';
 
@@ -8,27 +8,16 @@ import { ProjectEventApiService } from 'src/app/shared/services/project-event-ap
   styleUrls: ['./project-event-table.component.scss'],
 })
 export class ProjectEventTableComponent implements OnInit {
-  projectEventList: ProjectEvent[] = [];
+  @Output() detailsPorojectEvent: EventEmitter<ProjectEvent> =
+    new EventEmitter();
+  @Input() projectEventList: ProjectEvent[];
+
   constructor(private projectEventApi: ProjectEventApiService) {}
 
-  ngOnInit(): void {
-    this.loadAllProjectEvent();
-  }
-
-  loadAllProjectEvent() {
-    // todo returns array of objects instead array od projectEvents
-    this.projectEventApi.getAll().subscribe(
-      (response) => {
-        this.projectEventList = response;
-        console.log('response -> ', response);
-      },
-      (error) => {
-        console.error('error -> ', error);
-      }
-    );
-  }
+  ngOnInit(): void {}
 
   detailOfProjectRvent(project: ProjectEvent) {
-    console.log(project);
+    console.log('project -> ', project);
+    this.detailsPorojectEvent.emit(project);
   }
 }

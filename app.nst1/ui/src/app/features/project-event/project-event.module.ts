@@ -13,6 +13,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ProjectEventFormComponent,
     ProjectEventTableComponent,
   ],
-  imports: [CommonModule, ProjectEventRoutingModule, SharedModule],
+  imports: [CommonModule, SharedModule, ProjectEventRoutingModule],
 })
 export class ProjectEventModule {}
