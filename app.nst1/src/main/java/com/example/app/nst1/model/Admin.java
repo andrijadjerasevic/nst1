@@ -26,6 +26,10 @@ public class Admin implements Serializable {
 
   public Admin() {}
 
+  public Admin(String adminEmail) {
+    this.adminEmail = adminEmail;
+  }
+
   public Admin(String adminEmail, String adminPassword) {
     this.adminEmail = adminEmail;
     this.adminPassword = adminPassword;

@@ -41,7 +41,7 @@ public class CalendarServiceImpl {
   private static final String EVENT_RECURRENCE = "RRULE:FREQ=DAILY;COUNT=1";
   private static final String CALENDAR_ID = "primary";
 
-  private static final String DEFAULT_MAIL = "andrija.djerasevic@gmail.com";
+  public static final String DEFAULT_MAIL = "andrija.djerasevic@gmail.com";
   private static final String COLOR_RED = "6";
 
   public List<Event> getAllGoogleEvents(Calendar service) throws IOException {
@@ -67,9 +67,12 @@ public class CalendarServiceImpl {
   }
 
   public Event sendEventToCalendar(Calendar service, Event googleEvent) throws Exception {
-
-    googleEvent = service.events().insert(CALENDAR_ID, googleEvent).execute();
-    return googleEvent;
+    try {
+      googleEvent = service.events().insert(CALENDAR_ID, googleEvent).execute();
+      return googleEvent;
+    } catch (Exception e) {
+      throw new Exception("Event exists");
+    }
   }
 
   public Event createEvent(ProjectEvent projectEvent) throws Exception {
@@ -94,15 +97,17 @@ public class CalendarServiceImpl {
     googleEvent.setRecurrence(Arrays.asList(recurrence));
 
     List<EventAttendee> attendees = new ArrayList<>();
-    projectEvent
-        .getEmployees()
-        .forEach(
-            e -> {
-              attendees.add(
-                  new EventAttendee()
-                      .setEmail(
-                          e.getEmployeeEmail() != null ? e.getEmployeeEmail() : DEFAULT_MAIL));
-            });
+    if (projectEvent.getEmployees() != null) {
+      projectEvent
+          .getEmployees()
+          .forEach(
+              e -> {
+                attendees.add(
+                    new EventAttendee()
+                        .setEmail(
+                            e.getEmployeeEmail() != null ? e.getEmployeeEmail() : DEFAULT_MAIL));
+              });
+    }
 
     googleEvent.setAttendees(attendees);
 

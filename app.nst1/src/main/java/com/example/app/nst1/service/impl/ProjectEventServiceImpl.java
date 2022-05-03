@@ -1,6 +1,7 @@
 package com.example.app.nst1.service.impl;
 
 import com.example.app.nst1.exceptions.ProjectEventException;
+import com.example.app.nst1.model.Admin;
 import com.example.app.nst1.model.ProjectEvent;
 import com.example.app.nst1.repository.ProjectEventRepository;
 import com.example.app.nst1.service.ProjectEventService;
@@ -12,7 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,6 +31,7 @@ public class ProjectEventServiceImpl implements ProjectEventService {
       ProjectEventRepository projectEventRepository, CalendarServiceImpl calendarService) {
     this.projectEventRepository = projectEventRepository;
     this.calendarService = calendarService;
+    syncData();
   }
 
   @Override
@@ -68,8 +73,10 @@ public class ProjectEventServiceImpl implements ProjectEventService {
 
   @Override
   public List<ProjectEvent> findAll() throws ProjectEventException {
+    List<Event> googleEvents;
+    List<ProjectEvent> projectEvents;
     try {
-      List<Event> googleEvents =
+      googleEvents =
           calendarService.getAllGoogleEvents(calendarService.initializeNewAuthorization());
       logger.info("ALL GOOGLE EVENTS");
       googleEvents.forEach(
@@ -79,10 +86,66 @@ public class ProjectEventServiceImpl implements ProjectEventService {
                 event.getSummary(),
                 event.getHtmlLink());
           });
+      projectEvents = projectEventRepository.findAll();
     } catch (Exception e) {
       throw new ProjectEventException("Error while fetching all events", e);
     }
-    return projectEventRepository.findAll();
+    return projectEvents;
+  }
+
+  private void syncData() {
+    // TODO: 03-May-22 do better this method
+    try {
+      projectEventRepository.deleteAll();
+
+      List<ProjectEvent> projectEvents = findAll();
+      List<Event> googleEvents =
+          calendarService.getAllGoogleEvents(calendarService.initializeNewAuthorization());
+      for (Event googleEvent : googleEvents) {
+        ProjectEvent foundProjectEvent =
+            projectEvents.stream()
+                .filter(
+                    projectEvent ->
+                        Objects.equals(projectEvent.getProjectEventId(), googleEvent.getId()))
+                .findAny()
+                .orElse(null);
+        if (foundProjectEvent == null && findBy(googleEvent.getId()).isEmpty()) {
+          //        insert in database
+          // TODO: 03-May-22 fix mail
+          projectEventRepository.save(
+              createProjectEventFromGoogleEvent(googleEvent, CalendarServiceImpl.DEFAULT_MAIL));
+        }
+      }
+    } catch (Exception e) {
+      logger.error("ERROR WHILE DATA SYNCH");
+      //      delete this
+      e.printStackTrace();
+    }
+  }
+
+  private ProjectEvent createProjectEventFromGoogleEvent(Event googleEvent, String adminEmail) {
+    Instant startMills =
+        Instant.ofEpochMilli(
+            googleEvent.getStart().getDateTime() != null
+                ? googleEvent.getStart().getDateTime().getValue()
+                : googleEvent.getStart().getDate().getValue());
+    Instant endMills =
+        Instant.ofEpochMilli(
+            googleEvent.getEnd().getDateTime() != null
+                ? googleEvent.getStart().getDateTime().getValue()
+                : googleEvent.getStart().getDate().getValue());
+    Date startDate = Date.from(startMills);
+    Date endDate = Date.from(endMills);
+
+    Admin admin = new Admin(adminEmail);
+    return new ProjectEvent(
+        googleEvent.getId(),
+        googleEvent.getSummary(),
+        googleEvent.getLocation(),
+        googleEvent.getDescription(),
+        startDate,
+        endDate,
+        admin);
   }
 
   @Override
