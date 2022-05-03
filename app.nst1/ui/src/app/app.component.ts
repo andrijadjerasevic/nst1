@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PrincipalService } from './shared/services/principal.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +8,6 @@ import { PrincipalService } from './shared/services/principal.service';
 export class AppComponent {
   title = 'NST1';
 
-  constructor(private principal: PrincipalService) {}
+  constructor() {}
   ngOnInit(): void {}
-
-  get loggedAdmin() {
-    return this.principal.loggedAdmin;
-  }
 }
