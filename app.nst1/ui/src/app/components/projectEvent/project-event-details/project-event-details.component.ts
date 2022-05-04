@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Admin } from '../model/admin';
-import { ProjectEvent } from '../model/projectEvent';
+import { Admin } from 'src/app/model/admin';
+import { ProjectEvent } from 'src/app/model/projectEvent';
 
 @Component({
   selector: 'app-project-event-form',
-  templateUrl: './project-event-form.component.html',
-  styleUrls: ['./project-event-form.component.scss'],
+  templateUrl: './project-event-details.component.html',
+  styleUrls: ['./project-event-details.component.scss'],
 })
-export class ProjectEventFormComponent implements OnInit {
+export class ProjectEventDetailsComponent implements OnInit {
   _projectEvent: ProjectEvent;
   projecEventForm: FormGroup;
-  
+
   @Input() set projectEvent(projectEvent: ProjectEvent) {
     this._projectEvent = projectEvent;
   }

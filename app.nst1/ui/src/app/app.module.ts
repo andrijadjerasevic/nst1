@@ -7,22 +7,33 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenubarModule } from 'primeng/menubar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './core/dashboard/dashboard.component';
-import { ProjectEventsComponent } from './core/project-events/project-events.component';
-import { MenuBarComponent } from './core/menu-bar/menu-bar.component';
-import { ProjectEventFormComponent } from './core/project-event-form/project-event-form.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
+import { ProjectEventListComponent } from './components/projectEvent/project-events-list/project-event-list.component';
+import { ProjectEventDetailsComponent } from './components/projectEvent/project-event-details/project-event-details.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
+  declarations: [
+    AppComponent,
+    DashboardComponent,
+    MenuBarComponent,
+    ProjectEventListComponent,
+    ProjectEventDetailsComponent,
+    LoginPageComponent,
+    HomeComponent,
+  ],
   imports: [
+    CommonModule,
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     MenubarModule,
-    FormsModule,
     AppRoutingModule,
     HttpClientModule,
   ],
-  declarations: [AppComponent, DashboardComponent, ProjectEventsComponent, MenuBarComponent, ProjectEventFormComponent],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent], // which component shows first
 })
 export class AppModule {}

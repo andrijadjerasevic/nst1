@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectEvent } from '../model/projectEvent';
-import { ProjectEventService } from '../service/project-event.service';
+import { ProjectEvent } from '../../model/projectEvent';
+import { ProjectEventService } from '../../service/projectEventService/project-event.service';
 
 @Component({
   selector: 'app-dashboard',

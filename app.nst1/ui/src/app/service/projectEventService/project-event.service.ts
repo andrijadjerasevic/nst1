@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
-import { ProjectEvent } from '../model/projectEvent';
+import { ProjectEvent } from '../../model/projectEvent';
 
 @Injectable({
   providedIn: 'root',

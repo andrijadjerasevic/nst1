@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProjectEvent } from '../model/projectEvent';
-import { ProjectEventService } from '../service/project-event.service';
+import { ProjectEvent } from 'src/app/model/projectEvent';
+import { ProjectEventService } from 'src/app/service/projectEventService/project-event.service';
 
 @Component({
   selector: 'app-project-events',
-  templateUrl: './project-events.component.html',
-  styleUrls: ['./project-events.component.scss'],
+  templateUrl: './project-event-list.component.html',
+  styleUrls: ['./project-event-list.component.scss'],
 })
-export class ProjectEventsComponent implements OnInit {
+export class ProjectEventListComponent implements OnInit {
   @Output() detailsPorojectEvent: EventEmitter<ProjectEvent> =
     new EventEmitter();
   @Input() projectEvents: ProjectEvent[] = [];
