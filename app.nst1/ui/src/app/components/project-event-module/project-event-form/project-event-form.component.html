@@ -1,0 +1,72 @@
+<div class="border border-primary rounded p-3" [formGroup]="projectEventForm">
+  <div class="form-group">
+    <label for="projectEventName">Name</label>
+    <input
+      id="projectEventName"
+      formControlName="projectEventName"
+      class="form-control"
+      type="text"
+    />
+    <div
+      *ngIf="
+        projectEventForm.get('projectEventName')?.touched &&
+        projectEventForm.get('projectEventName')?.invalid
+      "
+      class="alert alert-danger"
+    >
+      <span *ngIf="projectEventForm.get('projectEventName')?.errors"
+        >Required</span
+      >
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="projectEventLocation">Location</label>
+    <input
+      id="projectEventLocation"
+      formControlName="projectEventLocation"
+      class="form-control"
+      type="text"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="projectEventDescription">Description</label>
+    <input
+      id="projectEventDescription"
+      formControlName="projectEventDescription"
+      class="form-control"
+      type="text"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="startDate">Start Date</label>
+    <input
+      id="startDate"
+      formControlName="startDate"
+      class="form-control"
+      type="text"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="endDate">End Date</label>
+    <input
+      id="endDate"
+      formControlName="endDate"
+      class="form-control"
+      type="text"
+    />
+  </div>
+
+  <div class="p-3 d-flex flex-row-reverse">
+    <button
+      class="btn btn-primary"
+      [disabled]="projectEventForm.invalid"
+      (click)="save()"
+    >
+      Save
+    </button>
+  </div>
+</div>

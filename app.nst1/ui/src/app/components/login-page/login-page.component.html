@@ -1,0 +1,33 @@
+<div class="w-100 d-flex justify-content-center">
+  <h1>{{ title }}</h1>
+</div>
+<div class="w-100 d-flex justify-content-center">
+  <div class="p-4 border border-primary rounded w-25">
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        [(ngModel)]="admin.adminEmail"
+        type="text"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        [(ngModel)]="admin.adminPassword"
+        type="password"
+        class="form-control"
+      />
+    </div>
+
+    <div class="p-3 d-flex flex-row-reverse justify-content-around">
+      <button class="btn btn-primary" (click)="login()">Login</button>
+      <button class="btn btn-danger" (click)="resetFields()">Reset</button>
+    </div>
+  </div>
+</div>

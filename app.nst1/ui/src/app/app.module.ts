@@ -3,26 +3,33 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MenubarModule } from 'primeng/menubar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginPageComponent } from './pages/login-page/login-page.component';
-import { HomeComponent } from './pages/home/home/home.component';
-import { MainMenuComponent } from './core/components/main-menu/main-menu.component';
-import { Menubar, MenubarModule } from 'primeng/menubar';
-import { SharedModule } from 'primeng/api';
-import { CoreModule } from './core/core.module';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginPageComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    DashboardComponent,
+    MenuBarComponent,
+    LoginPageComponent,
+    HomeComponent,
+  ],
   imports: [
-    BrowserModule,
-    SharedModule,
-    AppRoutingModule,
-    CoreModule,
+    CommonModule,
     FormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MenubarModule,
+    AppRoutingModule,
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent], // which component shows first
 })
 export class AppModule {}
