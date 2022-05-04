@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError } from 'rxjs';
+import { Router } from '@angular/router';
 import { Admin } from 'src/app/model/admin';
 import { AdminServiceService } from 'src/app/service/adminService/admin-service.service';
 
@@ -10,9 +10,13 @@ import { AdminServiceService } from 'src/app/service/adminService/admin-service.
 })
 export class LoginPageComponent implements OnInit {
   title = 'NST1';
+  errorMessage = '';
 
   admin: Admin;
-  constructor(private adminService: AdminServiceService) {
+  constructor(
+    private adminService: AdminServiceService,
+    private router: Router
+  ) {
     this.admin = {};
   }
 
@@ -21,10 +25,14 @@ export class LoginPageComponent implements OnInit {
   login(): void {
     this.adminService.login(this.admin).subscribe(
       (response) => {
-        this.admin = response;
+        if (response) {
+          this.admin = response;
+          this.router.navigate(['home']);
+        }
       },
       (error) => {
-        console.error(error);
+        this.errorMessage = 'Wrong email or password';
+        console.error('ERROR -> ', error);
       }
     );
   }

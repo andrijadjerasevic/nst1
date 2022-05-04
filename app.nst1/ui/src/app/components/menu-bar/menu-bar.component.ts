@@ -19,7 +19,7 @@ export class MenuBarComponent implements OnInit {
             label: 'New Project Event',
             icon: 'pi pi-fw pi-plus',
           },
-          { label: 'Show All Project Events', url: '/projectEvents' },
+          { label: 'Show All Project Events', url: '/projectEvent' },
         ],
       },
       {
@@ -31,14 +31,6 @@ export class MenuBarComponent implements OnInit {
             url: '/employee',
           },
           { label: 'Show All Employees' },
-        ],
-      },
-      {
-        label: 'Edit',
-        icon: 'pi pi-fw pi-pencil',
-        items: [
-          { label: 'Delete', icon: 'pi pi-fw pi-trash' },
-          { label: 'Refresh', icon: 'pi pi-fw pi-refresh' },
         ],
       },
     ];

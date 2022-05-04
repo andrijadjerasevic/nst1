@@ -9,8 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
-import { ProjectEventListComponent } from './components/projectEvent/project-events-list/project-event-list.component';
-import { ProjectEventDetailsComponent } from './components/projectEvent/project-event-details/project-event-details.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { HomeComponent } from './components/home/home.component';
 
@@ -19,8 +17,6 @@ import { HomeComponent } from './components/home/home.component';
     AppComponent,
     DashboardComponent,
     MenuBarComponent,
-    ProjectEventListComponent,
-    ProjectEventDetailsComponent,
     LoginPageComponent,
     HomeComponent,
   ],

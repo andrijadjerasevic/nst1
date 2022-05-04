@@ -17,7 +17,19 @@ export class ProjectEventService {
 
   // CREATE ...
 
+  saveProjectEvent(projectEvent: ProjectEvent): Observable<ProjectEvent> {
+    return this.http.post<ProjectEvent>(
+      this.projectEventBaseUrl + '/save',
+      projectEvent
+    );
+  }
+
   // FIND BY ID ...
+  getProjectEventById(projectEventId: string): Observable<ProjectEvent> {
+    return this.http.get<ProjectEvent>(
+      this.projectEventBaseUrl + '/get/' + projectEventId
+    );
+  }
 
   // FIND ALL ...
   getAllProjectEvents(): Observable<ProjectEvent[]> {

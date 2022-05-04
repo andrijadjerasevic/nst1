@@ -15,7 +15,6 @@
       *ngFor="let project of projectEvents; let i = index"
       [class.first]="i === 0"
     >
-      <!-- todo class i === 0 not work!!! -->
       <td>{{ i + 1 }}</td>
       <td>{{ project.projectEventName }}</td>
       <td>{{ project.projectEventLocation }}</td>
@@ -23,7 +22,10 @@
       <td>{{ project.startDate }}</td>
       <td>{{ project.endDate }}</td>
       <td>
-        <button class="btn btn-primary" (click)="detailOfProjectRvent(project)">
+        <button
+          class="btn btn-primary"
+          (click)="detailsOfProjectEvent(project)"
+        >
           Details
         </button>
       </td>
