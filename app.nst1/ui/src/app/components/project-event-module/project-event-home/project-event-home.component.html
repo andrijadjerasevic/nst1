@@ -5,9 +5,9 @@
     ></app-project-list>
   </div>
   <div class="col-5" *ngIf="selectedProjectEvent">
-    <app-project-event-details (savedProjectEvent)="savedProjectEvent($event)"
+    <app-project-event-form (savedProjectEvent)="savedProjectEvent($event)"
       [projectEvent]="selectedProjectEvent"
-    ></app-project-event-details>
+    ></app-project-event-form>
   </div>
 </div>
 <button class="btn btn-primary" (click)="addNewProjectEvent()">

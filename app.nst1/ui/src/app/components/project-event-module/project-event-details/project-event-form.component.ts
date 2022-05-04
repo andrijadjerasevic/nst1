@@ -5,11 +5,11 @@ import { ProjectEvent } from 'src/app/model/projectEvent';
 import { ProjectEventService } from 'src/app/service/projectEventService/project-event.service';
 
 @Component({
-  selector: 'app-project-event-details',
-  templateUrl: './project-event-details.component.html',
-  styleUrls: ['./project-event-details.component.scss'],
+  selector: 'app-project-event-form',
+  templateUrl: './project-event-form.component.html',
+  styleUrls: ['./project-event-form.component.scss'],
 })
-export class ProjectEventDetailsComponent implements OnInit {
+export class ProjectEventFormComponent implements OnInit {
   @Input() set projectEvent(projectEvent: ProjectEvent) {
     this._projectEvent = projectEvent;
     this.buildForm(projectEvent);
