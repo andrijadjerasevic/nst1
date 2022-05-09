@@ -1,64 +1,51 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, tap } from 'rxjs';
-import { ProjectEvent } from '../../model/projectEvent';
+import { Observable, of } from 'rxjs';
+import { ProjectEvent } from 'src/app/model/projectEvent';
+
+const baseUrl = 'http://localhost:8080/projectEvent';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectEventService {
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
-
-  private projectEventBaseUrl = 'http://localhost:8080/projectEvent';
-
+  
   constructor(private http: HttpClient) {}
 
-  // CREATE ...
-
-  saveProjectEvent(projectEvent: ProjectEvent): Observable<ProjectEvent> {
-    return this.http.post<ProjectEvent>(
-      this.projectEventBaseUrl + '/save',
-      projectEvent
-    );
+  // CREATE
+  saveProjectEvent(data: ProjectEvent): Observable<ProjectEvent> {
+    return this.http.post<ProjectEvent>(`${baseUrl}/save`, data);
   }
 
-  // FIND BY ID ...
-  getProjectEventById(projectEventId: string): Observable<ProjectEvent> {
-    return this.http.get<ProjectEvent>(
-      this.projectEventBaseUrl + '/get/' + projectEventId
-    );
+  // READ
+  getProjectEvent(id: string): Observable<ProjectEvent> {
+    return this.http.get(`${baseUrl}/get/${id}`);
   }
 
-  // FIND ALL ...
+  // REAL ALL
   getAllProjectEvents(): Observable<ProjectEvent[]> {
-    return this.http
-      .get<ProjectEvent[]>(this.projectEventBaseUrl + '/get/all')
-      .pipe(
-        tap((_) => this.log('fetched projectEvents')),
-        catchError(this.handleError<ProjectEvent[]>('getAllProjectEvents', []))
-      );
+    return this.http.get<ProjectEvent[]>(`${baseUrl}/get/all`);
   }
 
-  // UPDATE ...
-
-  // DELETE ...
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  // UPDATE
+  updateProjectEvent(data: ProjectEvent): Observable<ProjectEvent> {
+    // send id in order to update
+    return this.http.post<ProjectEvent>(`${baseUrl}/update`, data);
   }
 
-  private log(message: string) {
-    console.log('Message -> ', message);
+  // DELETE
+  // returns a string message
+  deleteProjectEvent(id: string): Observable<any> {
+    return this.http.get<any>(`${baseUrl}/delete/${id}`);
+  }
+
+  deleteAll(): Observable<ProjectEvent> {
+    // TODO:
+    return of();
+  }
+
+  findByTitleProjectEvent(title: string): Observable<ProjectEvent[]> {
+    // TODO:
+    return of();
   }
 }

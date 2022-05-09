@@ -8,6 +8,7 @@ import { PrincipalService } from './service/principalService/principal.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  time: any;
   constructor(private principal: PrincipalService) {}
   ngOnInit(): void {}
 

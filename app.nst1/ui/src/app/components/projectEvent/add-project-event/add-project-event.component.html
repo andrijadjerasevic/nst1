@@ -1,0 +1,72 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          required
+          [(ngModel)]="projectEvent.projectEventName"
+          name="name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input
+          class="form-control"
+          id="location"
+          required
+          [(ngModel)]="projectEvent.projectEventLocation"
+          name="location"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          class="form-control"
+          id="description"
+          required
+          [(ngModel)]="projectEvent.projectEventDescription"
+          name="description"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="stratDate">Start Date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="startDate"
+          required
+          [(ngModel)]="projectEvent.startDate"
+          name="startDate"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="endDate"
+          required
+          [(ngModel)]="projectEvent.endDate"
+          name="endDate"
+        />
+      </div>
+
+      <button (click)="saveProjectEvent()" class="btn btn-success">
+        Submit
+      </button>
+    </div>
+
+    <div *ngIf="submitted">
+      <h4>Project Event was saved successfully!</h4>
+      <button class="btn btn-success" (click)="newProjectEvent()">Add</button>
+    </div>
+  </div>
+</div>

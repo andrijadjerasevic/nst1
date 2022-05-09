@@ -4,30 +4,38 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MenubarModule } from 'primeng/menubar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
+import { AddProjectEventComponent } from './components/projectEvent/add-project-event/add-project-event.component';
+import { ProjectEventDetailsComponent } from './components/projectEvent/project-event-details/project-event-details.component';
+import { ProjectEventsListComponent } from './components/projectEvent/project-events-list/project-events-list.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
-import { HomeComponent } from './components/home/home.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MaterialExampleModule } from 'src/material.module';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
-    MenuBarComponent,
+    AddProjectEventComponent,
+    ProjectEventDetailsComponent,
+    ProjectEventsListComponent,
     LoginPageComponent,
-    HomeComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    MenubarModule,
     AppRoutingModule,
     HttpClientModule,
+    MatNativeDateModule,
+    MaterialExampleModule,
+    NgxMatTimepickerModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent], // which component shows first
