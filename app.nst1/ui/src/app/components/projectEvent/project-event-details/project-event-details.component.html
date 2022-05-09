@@ -1,0 +1,125 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentProjectEvent.projectEventName">
+    <h4>Project Event</h4>
+    <div>
+      <label><strong>Id:</strong></label>
+      {{ currentProjectEvent.projectEventId?.slice(0, 5) }}...
+    </div>
+    <div>
+      <label><strong>Name:</strong></label>
+      {{ currentProjectEvent.projectEventDescription }}
+    </div>
+    <div>
+      <label><strong>Location:</strong></label>
+      {{ currentProjectEvent.projectEventLocation }}
+    </div>
+    <div>
+      <label><strong>Description:</strong></label>
+      {{ currentProjectEvent.projectEventDescription }}
+    </div>
+    <div>
+      <label><strong>Start Date:</strong></label>
+      {{ currentProjectEvent.startDate }}
+    </div>
+    <div>
+      <label><strong>End Date:</strong></label>
+      {{ currentProjectEvent.endDate }}
+    </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="/projectEvent/{{ currentProjectEvent.projectEventId }}"
+    >
+      Edit
+    </a>
+  </div>
+
+  <div *ngIf="!currentProjectEvent">
+    <br />
+    <p>Please click on a Project Event...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div *ngIf="currentProjectEvent.projectEventId" class="edit-form">
+    <h4>Project Event</h4>
+    <form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          required
+          [(ngModel)]="currentProjectEvent.projectEventName"
+          name="name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="loacation">Location</label>
+        <input
+          type="text"
+          class="form-control"
+          id="location"
+          required
+          [(ngModel)]="currentProjectEvent.projectEventLocation"
+          name="location"
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          required
+          [(ngModel)]="currentProjectEvent.projectEventDescription"
+          name="description"
+        />
+      </div>
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="startDate"
+          required
+          [(ngModel)]="currentProjectEvent.startDate"
+          name="startDate"
+        />
+      </div>
+      <div class="form-group">
+        <label for="sneDate">End Date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="endDate"
+          required
+          [(ngModel)]="currentProjectEvent.endDate"
+          name="endDate"
+        />
+      </div>
+    </form>
+
+    <button
+      class="badge badge-danger mr-2"
+      (click)="deleteProjectEvent(currentProjectEvent.projectEventId)"
+    >
+      Delete
+    </button>
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateProjectEvent()"
+    >
+      Update
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentProjectEvent.projectEventId">
+    <br />
+    <p>Cannot access this Project Event...</p>
+  </div>
+</ng-template>

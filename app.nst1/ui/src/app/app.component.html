@@ -1,2 +1,23 @@
-<app-menu-bar *ngIf="loggedAdmin"></app-menu-bar>
-<router-outlet></router-outlet>
+<div>
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">AndrijaKoder</a>
+    <div class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a routerLink="projectEvents" class="nav-link">Project Events</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="addProjectEvent" class="nav-link">Add Project Event</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="employees" class="nav-link">Employees</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="addEmployee" class="nav-link">Add Employees</a>
+      </li>
+    </div>
+  </nav>
+
+  <div class="container mt-3">
+    <router-outlet></router-outlet>
+  </div>
+</div>
