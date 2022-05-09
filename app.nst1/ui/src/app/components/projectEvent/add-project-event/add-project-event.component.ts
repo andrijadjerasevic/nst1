@@ -36,7 +36,6 @@ export class AddProjectEventComponent implements OnInit {
 
     this.projectEventService.saveProjectEvent(data).subscribe({
       next: (response) => {
-        console.log(response);
         this.submitted = true;
         this.route.navigate(['/projectEvents']);
       },

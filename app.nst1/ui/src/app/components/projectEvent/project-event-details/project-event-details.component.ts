@@ -55,7 +55,6 @@ export class ProjectEventDetailsComponent implements OnInit {
       .updateProjectEvent(this.currentProjectEvent)
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.message = 'This Project Event was updated successfully!';
           setTimeout(() => {
             this.router.navigate(['/projectEvents']);
@@ -68,12 +67,14 @@ export class ProjectEventDetailsComponent implements OnInit {
   deleteProjectEvent(id: string): void {
     this.projectEventService.deleteProjectEvent(id).subscribe(
       (response) => {
-        console.log(response);
-        this.router.navigate(['/projectEvents']);
+        console.debug(response);
+        this.message = response;
+        setTimeout(() => {
+          this.router.navigate(['/projectEvents']);
+        }, 1000);
       },
       (error) => {
-        console.error(error);
-        this.router.navigate(['/projectEvents']);
+        console.error(error.message);
       }
     );
   }

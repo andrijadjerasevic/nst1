@@ -25,7 +25,6 @@ export class ProjectEventsListComponent implements OnInit {
     this.projectEventService.getAllProjectEvents().subscribe({
       next: (data) => {
         this.projectEvents = data;
-        console.log(data);
       },
       error: (e) => console.error(e),
     });
@@ -39,13 +38,25 @@ export class ProjectEventsListComponent implements OnInit {
 
   setActiveProjectEvent(projectEvent: ProjectEvent, index: number): void {
     this.currentProjectEvent = projectEvent;
+    if (
+      this.currentProjectEvent &&
+      this.currentProjectEvent.startDate &&
+      this.currentProjectEvent.endDate
+    ) {
+      this.currentProjectEvent.startDate = new Date(
+        this.currentProjectEvent?.startDate
+      ).toUTCString();
+
+      this.currentProjectEvent.endDate = new Date(
+        this.currentProjectEvent?.endDate
+      ).toUTCString();
+    }
     this.currentIndex = index;
   }
 
   removeAllProjectEvents(): void {
     this.projectEventService.deleteAll().subscribe({
       next: (res) => {
-        console.log(res);
         this.refreshList();
       },
       error: (e) => console.error(e),

@@ -9,9 +9,14 @@ import { ProjectEventsListComponent } from './components/projectEvent/project-ev
 const routes: Routes = [
   // { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
+
   { path: 'projectEvents', component: ProjectEventsListComponent },
   { path: 'projectEvent/:id', component: ProjectEventDetailsComponent },
-  { path: 'add', component: AddProjectEventComponent },
+  { path: 'addProjectEvent', component: AddProjectEventComponent },
+
+  // { path: 'employees', component: undefined },
+  // { path: 'employee/:id', component: undefined },
+  // { path: 'addEmployees', component: undefined },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
